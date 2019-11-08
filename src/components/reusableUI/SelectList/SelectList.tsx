@@ -1,9 +1,9 @@
 import * as React from "react";
 import classnames from "classnames";
-import Box from "./../Box";
-import Flyout from "./../Flyout";
-import Text from "./../Text";
-import Icon from "./../Icon";
+import Box from "../Box";
+import Flyout from "../Flyout";
+import Text from "../Text";
+import Icon from "../Icon";
 import StyledSelectList from "./StyledSelectList";
 
 

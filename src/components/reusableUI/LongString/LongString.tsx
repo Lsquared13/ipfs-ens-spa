@@ -1,6 +1,6 @@
 import React from "react";
-import Box from "./../Box";
-import Text, { TextProps } from "./../Text";
+import Box from "../Box";
+import Text, { TextProps } from "../Text";
 import copy from 'copy-to-clipboard';
 import Alert from 'react-s-alert';
 

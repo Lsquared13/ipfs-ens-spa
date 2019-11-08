@@ -1,26 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
+import { AppContainer, AuthChecker } from './components/AppContainer';
+import { DeployList, DeployDetail, NewDeploy, Login, PageNotFound } from './pages';
+import { Router, Link } from "@reach/router"
 import './App.css';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <AppContainer>
+      <Router>
+        <AuthChecker path='/'>
+          <DeployList default />
+          <Login path='login' />
+          <NewDeploy path='new' />
+          <DeployDetail path='deploy/:deployName' />
+        </AuthChecker>
+      </Router>
+    </AppContainer>
+  )
 }
 
 export default App;

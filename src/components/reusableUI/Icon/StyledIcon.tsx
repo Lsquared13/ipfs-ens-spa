@@ -1,6 +1,6 @@
 import styled from "styled-components";
 //import "./../variable.css";
-import "./../font.css";
+import "../font.css";
 
 export const StyledIcon = styled.span`
   &.icon {

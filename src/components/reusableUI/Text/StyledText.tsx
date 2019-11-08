@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { breakpoints } from "./../globalStyles";
+import { breakpoints } from "../globalStyles";
 export const StyledText = styled.div`
   &.Text {
     --font-size-1: 12px;

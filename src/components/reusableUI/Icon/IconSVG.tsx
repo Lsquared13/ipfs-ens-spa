@@ -1,7 +1,7 @@
 import * as React from "react";
 import classnames from "classnames";
 
-import icons from "./../icons/index";
+import icons from "../icons/index";
 import { StyledIconSVG } from "./StyledIcon";
 
 export type IconOptions =
