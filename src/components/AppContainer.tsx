@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import Alert from 'react-s-alert';
+import Footer from './Footer';
 
 /**
  * Outermost wrapper component on the application, provides for a default
@@ -10,12 +11,12 @@ import Alert from 'react-s-alert';
 export const AppContainer:FC = ({ children }) => {
   const footer = null;
   return (
-    <div className='App'>
+    <div id='App'>
       <Alert />
-      <div className='WrappedPage'>
+      <div id='WrappedPage'>
         { children }
       </div>
-      { footer }
+      <Footer />
     </div>
   )
 }
