@@ -2,15 +2,15 @@ import React, { FC } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { Box } from '../components/sharedUI';
 import DeploymentTable from '../components/DeploymentTable';
-import { Deployment } from '../types';
+import { DeploySeed, DeployItem } from '../types';
 
 export interface DeployListPageProps extends RouteComponentProps {
-  deployments?: Deployment[]
+  deployments?: DeployItem[]
 }
 
 export const DeployListPage: FC<DeployListPageProps> = (props) => {
   // TODO: Add the Deployment Table and a heading
-  const deployments:Deployment[] = props.deployments || [];
+  const deployments:DeployItem[] = props.deployments || [];
   return (
     <Box>
       <h1>Deployments</h1>

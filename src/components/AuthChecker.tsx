@@ -1,8 +1,9 @@
 import React, { FC, useEffect } from 'react';
 import { RouteComponentProps } from '@reach/router';
+import { LoginPage } from '../pages';
 
 interface AuthCheckerProps extends RouteComponentProps {
-
+  oauthToken: string | null
 }
 
 /**
@@ -11,15 +12,15 @@ interface AuthCheckerProps extends RouteComponentProps {
  * not, then 
  * @param props 
  */
-export const AuthChecker:FC<AuthCheckerProps> = ({ children }) => {
+export const AuthChecker:FC<AuthCheckerProps> = ({ children, ...props }) => {
 
-  // TODO: What data point will we be representing as "having auth"?
-  // Need to depend on it.
-  useEffect(function requireActiveAuth(){
-
-  }, []);
-
-  return <>{children}</>;
+  // For now, there's a simpler solution than redirecting the user to
+  // an auth page.  The entire app's routing won't be shown unless the
+  // user is logged in.  There are no redirects involved, so their path
+  // will be preserved when we render this router's regular children again.
+  return props.oauthToken ? <>{children}</> : (
+    <LoginPage {...props} />
+  )
 }
 
 export default AuthChecker;

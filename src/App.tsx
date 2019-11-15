@@ -11,9 +11,8 @@ const App: React.FC = () => {
   return (
     <AppContainer>
       <Router>
-        <AuthChecker path='/'>
+        <AuthChecker oauthToken={null} path='/'>
           <DeployListPage default />
-          <LoginPage path='login' />
           <NewDeployPage path='new' />
           <DeployDetailPage path='deploy/:deployName' />
           <PageNotFound path='*' />

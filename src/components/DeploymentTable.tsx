@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { Deployment } from '../types';
+import { DeployItem } from '../types';
 import { Table } from './sharedUI';
 
 export interface DeploymentTableProps {
-  deployments: Deployment[]
+  deployments: DeployItem[]
 }
 
 export const DeploymentTable:FC<DeploymentTableProps> = (props) => {
