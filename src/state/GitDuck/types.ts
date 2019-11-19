@@ -8,7 +8,7 @@ export interface GitState {
   repos: GitTypes.Repo[]
   reposLoading: boolean
   branches: {
-    [key:string]: GitTypes.Branch
+    [key:string]: GitTypes.Branch[]
   }
   branchesLoading: boolean
   error: any | null

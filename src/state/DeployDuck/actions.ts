@@ -17,7 +17,7 @@ const actionCreator = actionCreatorFactory('deploy');
 export const resetNewDeploy = actionCreator<void>('reset-new');
 
 export const updateNewDeploy = actionCreator<{
-  field: string,
+  field: keyof DeployArgs,
   value: string
 }>('update-new');
 

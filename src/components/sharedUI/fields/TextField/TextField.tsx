@@ -1,21 +1,22 @@
 import * as React from "react";
 import classnames from "classnames";
-import Flyout from "../Flyout";
-import Box from "../Box";
-import Text from "../Text";
-import StyledTextField from "./StyledTextField";
-import Callout from "../NavLeft/Callout";
+import StyledTextField, { StyledErrorMessage } from "./StyledTextField";
 
 export type eventData = {
   event: React.SyntheticEvent<HTMLInputElement>;
   value?: string;
 };
 
-export interface TextFieldState {
-  focused: boolean;
-  errorIsOpen: boolean;
-  errorMessage?: string;
+export enum TextFieldTypeEnum {
+  date = "date", 
+  email = "email",
+  number = "number",
+  password = "password",
+  text = "text",
+  url ="url"
 }
+
+export type TextFieldTypes = keyof typeof TextFieldTypeEnum;
 
 export interface TextFieldProps {
   /**
@@ -33,7 +34,7 @@ export interface TextFieldProps {
   /**
    * boolean, disabled
    **/
-  hasError?: boolean;
+  showError?: boolean;
   /**
    * string, id
    **/
@@ -67,7 +68,7 @@ export interface TextFieldProps {
    * function, ({ event: React.SyntheticEvent<HTMLInputElement>, value: boolean }) => void
    * Event is fired on key down
    **/
-  onKeyDown?: (event:React.SyntheticEvent<HTMLInputElement>)=>void
+  onKeyDown?: (event:React.KeyboardEvent<HTMLInputElement>)=>void
   /**
    * string, placeholder
    **/
@@ -85,38 +86,22 @@ export interface TextFieldProps {
    * string, "date" | "email" | "number" | "password" | "text" | "url"
    * @default "text"
    **/
-  type?: "date" | "email" | "number" | "password" | "text" | "url";
+  type?: TextFieldTypes;
 }
 
-export class TextField extends React.Component<
-  TextFieldProps,
-  TextFieldState
+export default class TextField extends React.Component<
+  TextFieldProps
 > {
   static defaultProps = {
     disabled: false,
-    hasError: false,
+    showError: false,
     idealErrorDirection: "right",
     type: "text"
   };
 
   state = {
-    focused: false,
-    errorIsOpen: false
+    focused: false
   };
-
-  static getDerivedStateFromProps(
-    props: TextFieldProps,
-    state: TextFieldState
-  ) {
-    if (props.errorMessage !== state.errorMessage) {
-      return {
-        errorIsOpen: !!props.errorMessage,
-        errorMessage: props.errorMessage
-      };
-    }
-
-    return null;
-  }
 
   handleChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
     this.props.onChange(event);
@@ -140,7 +125,7 @@ export class TextField extends React.Component<
     }
   };
 
-  handleKeyDown = (event: React.SyntheticEvent<HTMLInputElement>) => {
+  handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (this.props.onKeyDown) {
       this.props.onKeyDown(event);
     }
@@ -160,9 +145,8 @@ export class TextField extends React.Component<
       autoComplete,
       disabled,
       errorMessage,
-      hasError,
+      showError,
       id,
-      idealErrorDirection,
       name,
       placeholder,
       type,
@@ -172,59 +156,41 @@ export class TextField extends React.Component<
     const classes = classnames(
       "textField",
       disabled ? "disabled" : "enabled",
-      hasError || errorMessage ? "errored" : "normal"
+      showError || errorMessage ? "errored" : "normal"
     );
 
     // type='number' doesn't work on ios safari without a pattern
     // https://stackoverflow.com/questions/14447668/input-type-number-is-not-showing-a-number-keypad-on-ios
     const pattern = type === "number" ? "\\d*" : undefined;
-
+    
     return (
       <span>
         <StyledTextField
-          aria-describedby={
-            errorMessage && this.state.focused
-              ? `${id}-gestalt-error`
-              : undefined
-          }
-          aria-invalid={errorMessage || hasError ? "true" : "false"}
-          autoComplete={autoComplete}
-          className={classes}
-          disabled={disabled}
-          id={id}
-          name={name}
-          onBlur={this.handleBlur}
-          onChange={this.handleChange}
-          onFocus={this.handleFocus}
-          onKeyDown={this.handleKeyDown}
-          pattern={pattern}
-          placeholder={placeholder}
-          innerRef={this.textfieldRef}
-          type={type}
-          value={value}
-        />
-        {errorMessage && this.state.errorIsOpen && (
-     
-          <Flyout
-            color="orange"
-            idealDirection={idealErrorDirection}
-            onDismiss={() => this.setState({ errorIsOpen: false })}
-            shouldFocus={false}
-            size="sm"
-            ariaLabel={`${id} Error`}
-            label={`${id}-error`}
-            positionRelativeToAnchor
-          >
-            <Box padding={3}>
-              <Text bold color="white">
-                <span id={`${id}-gestalt-error`}>{errorMessage}</span>
-              </Text>
-            </Box>
-          </Flyout>
-        )}
+            aria-describedby={
+              errorMessage && this.state.focused
+                ? `${id}-gestalt-error`
+                : undefined
+            }
+            aria-invalid={errorMessage || showError ? "true" : "false"}
+            autoComplete={autoComplete}
+            className={classes}
+            disabled={disabled}
+            id={id}
+            name={name}
+            onBlur={this.handleBlur}
+            onChange={this.handleChange}
+            onFocus={this.handleFocus}
+            onKeyDown={this.handleKeyDown}
+            pattern={pattern}
+            placeholder={placeholder}
+            innerRef={this.textfieldRef}
+            type={type}
+            value={value}
+          />
+        <StyledErrorMessage className={classnames('textField','errorMsg', showError ? '' : 'hide')}>
+          { showError && errorMessage ? errorMessage : ''}
+        </StyledErrorMessage>
       </span>
     );
   }
 }
-
-export default TextField;
