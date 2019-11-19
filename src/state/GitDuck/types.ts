@@ -1,20 +1,14 @@
-import OctokitOauthTypes from '@octokit/auth-oauth-app/dist-types/types';
-import Octokit from '@octokit/rest';
-
-export type GitAuth = OctokitOauthTypes.TokenAuthentication;
-export type GitUser = Octokit.UsersGetAuthenticatedResponse;
-export type GitRepo = Octokit.ReposListForOrgResponseItem;
-export type GitBranch = Octokit.ReposListBranchesResponseItem;
+import { GitTypes } from '@eximchain/ipfs-ens-types/spec/deployment';
 
 export interface GitState {
-  auth: GitAuth | null
+  auth: GitTypes.Auth | null
   authLoading: boolean
-  user: GitUser | null
+  user: GitTypes.User | null
   userLoading: boolean
-  repos: GitRepo[]
+  repos: GitTypes.Repo[]
   reposLoading: boolean
   branches: {
-    [key:string]: GitBranch
+    [key:string]: GitTypes.Branch
   }
   branchesLoading: boolean
   error: any | null

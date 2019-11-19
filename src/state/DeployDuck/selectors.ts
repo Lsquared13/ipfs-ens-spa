@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
+import { getToken } from '../GitDuck/selectors';
 import { AppState } from '../store';
+import { Deployer } from '../../services';
 
 export const getDeployState = (state:AppState) => state.deploy;
 

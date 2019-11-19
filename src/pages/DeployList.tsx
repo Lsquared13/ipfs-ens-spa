@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { RouteComponentProps } from '@reach/router';
+import { DeployItem } from '@eximchain/ipfs-ens-types/spec/deployment';
 import { Box } from '../components/sharedUI';
 import DeploymentTable from '../components/DeploymentTable';
-import { DeploySeed, DeployItem } from '../types';
 
 export interface DeployListPageProps extends RouteComponentProps {
   deployments?: DeployItem[]

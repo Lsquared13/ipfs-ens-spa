@@ -1,10 +1,9 @@
-import { Action } from 'redux';
 import actionCreatorFactory from 'typescript-fsa';
-import { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import { getDeployment, listDeployments } from '../../services';
-import { DeployName, DeployItem } from '../../types';
+import { asyncFactory } from 'typescript-fsa-redux-thunk';
+import { DeployItem, DeployArgs } from '@eximchain/ipfs-ens-types/spec/deployment';
+import { AsyncAction, AsyncDispatch } from '../sharedTypes';
+import { buildApi } from '../GitDuck/selectors';
 import { AppState } from '../store';
-import {} from '../sharedTypes';
 
 // What's 'typescript-fsa'?
 //
@@ -22,18 +21,50 @@ export const updateNewDeploy = actionCreator<{
   value: string
 }>('update-new');
 
-export const saveDeploys = actionCreator<DeployItem[]>('deploy/save-deploys')
+export const saveDeploys = actionCreator<DeployItem[]>('save-deploys');
 
-export const fetchDeploys:() => ThunkAction<Promise<void>, AppState, {}, Action> = () => {
-  return async (dispatch:ThunkDispatch<AppState, {}, Action>, getState) => {
-    const deployments = await listDeployments();
+export const deploysLoading = actionCreator<boolean>('deploys-loading');
+
+export const newDeployLoading = actionCreator<boolean>('new-deploy-loading');
+
+export const fetchDeploys: () => AsyncAction = () => {
+  return async (dispatch: AsyncDispatch, getState) => {
+    dispatch(deploysLoading(true));
+    const Deployer = buildApi.Deployer(getState());
+    const deployments = await Deployer.listDeployments();
     dispatch(saveDeploys(deployments));
+    dispatch(deploysLoading(false));
   }
 }
 
-export const fetchDeploy:(name:string)=>ThunkAction<Promise<void>, AppState, {}, Action> = () => {
-  return async (dispatch:ThunkDispatch<AppState, {}, Action>, getState) => {
-    const deployment = await getDeployment(name);
+export const fetchDeploy: (name: string) => AsyncAction = () => {
+  return async (dispatch: AsyncDispatch, getState) => {
+    dispatch(deploysLoading(true));
+    const Deployer = buildApi.Deployer(getState());
+    const deployment = await Deployer.getDeployment(name);
     dispatch(saveDeploys([deployment]));
+    dispatch(deploysLoading(false));
   }
 }
+
+export const createDeploy: (args: DeployArgs) => AsyncAction = (args) => {
+  return async (dispatch: AsyncDispatch, getState) => {
+    dispatch(newDeployLoading(true));
+    const Deployer = buildApi.Deployer(getState());
+    const createRes = await Deployer.createDeployment(args);
+    console.log('We got a create response', createRes);
+    console.log('Throwing away newDeploy: ',args);
+    dispatch(resetNewDeploy())
+    dispatch(newDeployLoading(false));
+
+    // Wait for 3/4s of a second then refresh our deploy list
+    await sleep(750);
+    dispatch(fetchDeploys())
+  }
+}
+
+function sleep(ms: number) {
+  return new Promise((res) => {
+    setTimeout(() => res(null), ms);
+  })
+} 

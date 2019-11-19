@@ -1,2 +1,2 @@
-export * from './auth';
-export * from './deployments';
+export * from './github';
+export * from './deployer';
