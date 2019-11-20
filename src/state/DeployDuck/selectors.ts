@@ -16,3 +16,8 @@ export const getNewDeploy = createSelector(getDeployState, deploy => deploy.newD
 export const newDeployValid = createSelector(getNewDeploy, newDeploy => {
   return Object.values(newDeploy).every(val => val !== '')
 })
+
+export const isLoading = {
+  deploys: createSelector(getDeployState, deploy => deploy.deploysLoading),
+  newDeploy: createSelector(getDeployState, deploy => deploy.newDeployLoading)
+}

@@ -18,7 +18,7 @@ interface StateProps {
 }
 
 
-export const NewDeployFlow:FC<StateProps & DeployArgs> = (props) => {
+const NewDeployFlowRouter:FC<StateProps & DeployArgs> = (props) => {
   const { ensName, repo, owner, branch, packageDir, buildDir } = props;
   
   if (repo === '' || owner === '') {
@@ -41,5 +41,7 @@ const mapStateToProps = (state:AppState) => {
     ...DeploySelectors.getNewDeploy(state)
   }
 }
+
+export const NewDeployFlow = connect(mapStateToProps)(NewDeployFlowRouter);
 
 export default connect(mapStateToProps)(NewDeployFlow);

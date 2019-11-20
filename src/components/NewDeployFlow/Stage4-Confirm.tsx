@@ -10,6 +10,7 @@ import { Button } from '../sharedUI';
 
 interface StateProps {
   newDeploy: DeployArgs
+  loading: boolean
 }
 
 interface DispatchProps {
@@ -21,7 +22,8 @@ export interface ConfirmStageProps {
 }
 
 const ConfirmStage: FC<ConfirmStageProps & StateProps & DispatchProps> = (props) => {
-  const { newDeploy, startDeploy } = props;
+  const { newDeploy, startDeploy, loading } = props;
+  const deployName = newDeploy.ensName;
 
   return (
     <>
@@ -43,7 +45,8 @@ const ConfirmStage: FC<ConfirmStageProps & StateProps & DispatchProps> = (props)
 
 const mapStateToProps = (state: AppState) => {
   return {
-    newDeploy : DeploySelectors.getNewDeploy(state)
+    newDeploy : DeploySelectors.getNewDeploy(state),
+    loading: DeploySelectors.isLoading.newDeploy(state)
   }
 }
 
