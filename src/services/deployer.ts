@@ -15,42 +15,49 @@ export class Deployer {
   }
   token: string|null
 
-  private buildHeaders(){
+  private makeRequest(path:string, method:string, args?:any) {
     const headers: Headers = {
       'Content-Type': 'application/json'
     }
     if (this.token) headers.Authorization = `${this.token}`;
-    return headers;
+    return request(path, {
+      method, headers,
+      // If there are no args, settings JSON to true ensures
+      // the body is parsed before returning to us.
+      json: args || true
+    })
   }
 
   async createDeployment(args:DeployArgs) {
-    const res = await request(CreateDeployment.Path(args.ensName), {
-      method: CreateDeployment.HTTP,
-      headers: this.buildHeaders(),
-      json: args
-    })
+    const res = await this.makeRequest(
+      CreateDeployment.Path(args.ensName),
+      CreateDeployment.HTTP,
+      args
+    )
     if (!isSuccessResponse(res)) throw new Error('deployStart response did not fit successResponse.');
+    console.log('Received following createDeployment response data: ',res.data);
     return res.data as MessageResult;
   }
 
   async login(code: string):Promise<GitTypes.Auth> {
     const args:Login.Args = { code };
-    const res = await request(Login.Path, {
-      method: Login.HTTP,
-      headers: this.buildHeaders(),
-      json: args
-    });
+    const res = await this.makeRequest(
+      Login.Path, 
+      Login.HTTP,
+      args
+    );
     if (!isSuccessResponse(res)) throw new Error(`tokenFetch response did not fit successResponse.`)
+    console.log('Received following login response data: ',res.data);
     return res.data as GitTypes.Auth;
   }
 
   async listDeployments(): Promise<DeployItem[]> {
-    const res:DeployItem[] = await request(ListDeployments.Path, {
-      method: ListDeployments.HTTP,
-      headers: this.buildHeaders(),
-      json: true
-    })
+    const res:DeployItem[] = await this.makeRequest(
+      ListDeployments.Path, 
+      ListDeployments.HTTP
+    )
     if (!isSuccessResponse(res)) throw new Error(`deploysList response did not fit successResponse.`);
+    console.log('Received following deploysList response data: ',res.data);
     return res.data as DeployItem[]
   }
 
@@ -58,12 +65,12 @@ export class Deployer {
     // TODO: Implement a "getDeployment" function for getting
     // a single deployment.  If they end up including bigger
     // data, then this one will get the full output.
-    const res = await request(ReadDeployment.Path(name), {
-      method: ReadDeployment.HTTP,
-      headers: this.buildHeaders(),
-      json: true
-    })
+    const res = await this.makeRequest(
+      ReadDeployment.Path(name), 
+      ReadDeployment.HTTP
+    )
     if (!isSuccessResponse(res)) throw new Error(`deployGet response did not fit successResponse.`);
+    console.log('Received following deployGet response data: ',res.data);
     return res.data as DeployItem;
   }
 }
