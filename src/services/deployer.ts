@@ -15,12 +15,13 @@ export class Deployer {
   }
   token: string|null
 
-  private makeRequest(path:string, method:string, args?:any) {
+  private makeRequest(apiPath:string, method:string, args?:any) {
     const headers: Headers = {
       'Content-Type': 'application/json'
     }
     if (this.token) headers.Authorization = `${this.token}`;
-    return request(path, {
+    return request(
+      `${process.env.REACT_APP_IPFS_ENS_API_URL}${apiPath}`, {
       method, headers,
       // If there are no args, settings JSON to true ensures
       // the body is parsed before returning to us.
