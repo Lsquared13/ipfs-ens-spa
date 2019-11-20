@@ -21,3 +21,5 @@ export const isLoading = {
   deploys: createSelector(getDeployState, deploy => deploy.deploysLoading),
   newDeploy: createSelector(getDeployState, deploy => deploy.newDeployLoading)
 }
+
+export const getErr = createSelector(getDeployState, deploy => deploy.error);

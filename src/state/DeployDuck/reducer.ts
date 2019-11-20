@@ -1,10 +1,11 @@
 import { reducerWithInitialState } from "typescript-fsa-reducers";
 import keyBy from 'lodash.keyby';
 import { newDeployArgs } from '@eximchain/ipfs-ens-types/spec/deployment';
+import { mergedState } from '..';
 import { DeployState } from './types';
 import { 
   resetNewDeploy, updateNewDeploy, saveDeploys,
-  deploysLoading, newDeployLoading
+  deploysLoading, newDeployLoading, setError
 } from './actions';
 
 const initialState:DeployState = {
@@ -16,15 +17,15 @@ const initialState:DeployState = {
 }
 
 export const DeployReducer = reducerWithInitialState(initialState)
-  .case(resetNewDeploy, (state) => Object.assign({}, state, { newDeploy: newDeployArgs() }))
-  .case(updateNewDeploy, (state, { field, value }) => {
-    const newDeploy = Object.assign({}, state.newDeploy, { [field]: value })
-    return Object.assign({}, state, { newDeploy });
-  })
-  .case(saveDeploys, (state, deploys) => Object.assign({}, state, {
+  .case(resetNewDeploy, (state) => mergedState(state, { newDeploy : newDeployArgs() }))
+  .case(updateNewDeploy, (state, { field, value }) => mergedState(state, {
+    newDeploy: mergedState(state.newDeploy, { [field] : value })
+  }))
+  .case(saveDeploys, (state, deploys) => mergedState(state, {
     deploys: keyBy(deploys, deploy => deploy.ensName)
   }))
-  .case(deploysLoading, (state, deploysLoading) => Object.assign({}, state, { deploysLoading }))
-  .case(newDeployLoading, (state, newDeployLoading) => Object.assign({}, state, { newDeployLoading }))
+  .case(deploysLoading, (state, deploysLoading) => mergedState(state, { deploysLoading }))
+  .case(newDeployLoading, (state, newDeployLoading) => mergedState(state, { newDeployLoading }))
+  .case(setError, (state, error) => mergedState(state, { error }))
 
 export default DeployReducer;

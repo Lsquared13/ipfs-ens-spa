@@ -1,6 +1,7 @@
 import { reducerWithInitialState } from "typescript-fsa-reducers";
+import { mergedState } from '..';
 import { 
-  saveAuth, saveBranches, saveRepos, saveUser ,
+  saveAuth, saveBranches, saveRepos, saveUser, setError,
   setAuthLoading, setBranchesLoading, setReposLoading, setUserLoading
 } from './actions';
 import { GitState } from './types';
@@ -18,15 +19,16 @@ const initialState:GitState = {
 }
 
 export const GitReducer = reducerWithInitialState(initialState)
-  .case(saveAuth, (state, auth) => Object.assign({}, state, { auth }))
-  .case(setAuthLoading, (state, authLoading) => Object.assign({}, state, { authLoading }))
-  .case(saveUser, (state, user) => Object.assign({}, state, { user }))
-  .case(setUserLoading, (state, userLoading) => Object.assign({}, state, { userLoading }))
-  .case(saveRepos, (state, repos) => Object.assign({}, state, { repos }))
-  .case(setReposLoading, (state, reposLoading) => Object.assign({}, state, { reposLoading }))
-  .case(saveBranches, (state, { repo, branches }) => Object.assign({}, state, { 
-    repos : Object.assign(state.repos, { [repo] : branches })
+  .case(saveAuth, (state, auth) => mergedState(state, { auth }))
+  .case(setAuthLoading, (state, authLoading) => mergedState(state, { authLoading }))
+  .case(saveUser, (state, user) => mergedState(state, { user }))
+  .case(setUserLoading, (state, userLoading) => mergedState(state, { userLoading }))
+  .case(saveRepos, (state, repos) => mergedState(state, { repos }))
+  .case(setReposLoading, (state, reposLoading) => mergedState(state, { reposLoading }))
+  .case(saveBranches, (state, { repo, branches }) => mergedState(state, {
+    repos: mergedState(state.repos, { [repo] : branches })
   }))
-  .case(setBranchesLoading, (state, branchesLoading) => Object.assign({}, state, { branchesLoading }))
+  .case(setBranchesLoading, (state, branchesLoading) => mergedState(state, { branchesLoading }))
+  .case(setError, (state, error) => mergedState(state, { error }))
 
 export default GitReducer;

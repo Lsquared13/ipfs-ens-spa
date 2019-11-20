@@ -26,3 +26,5 @@ export const isLoading = createSelector(getGitState, git => {
     user: git.userLoading
   }
 })
+
+export const getErr = createSelector(getGitState, git => git.error);

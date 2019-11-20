@@ -27,6 +27,8 @@ export const deploysLoading = actionCreator<boolean>('deploys-loading');
 
 export const newDeployLoading = actionCreator<boolean>('new-deploy-loading');
 
+export const setError = actionCreator<any>('set-err');
+
 export const fetchDeploys: () => AsyncAction = () => {
   return async (dispatch: AsyncDispatch, getState) => {
     dispatch(deploysLoading(true));
