@@ -37,7 +37,7 @@ export const fetchDeploys: () => AsyncAction = () => {
   }
 }
 
-export const fetchDeploy: (name: string) => AsyncAction = () => {
+export const fetchDeploy: (name: string) => AsyncAction = (name) => {
   return async (dispatch: AsyncDispatch, getState) => {
     dispatch(deploysLoading(true));
     const Deployer = buildApi.Deployer(getState());

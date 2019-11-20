@@ -1,4 +1,4 @@
-import TextField, { eventData } from "./TextField";
+import TextField, { eventData as eventDataType } from "./TextField";
 export * from './TextField';
-export type eventData = eventData;
+export type eventData = eventDataType;
 export default TextField;

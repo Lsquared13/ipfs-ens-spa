@@ -81,10 +81,10 @@ const LoginPage: FC<LoginPageProps & StateProps & DispatchProps> = (props) => {
   )
 
   return (
-    <Box alignContent='center'>
+    <>
       <h1>Welcome to IPFS ENS Deployer</h1>
       { content }
-    </Box>
+    </>
   )
 }
 

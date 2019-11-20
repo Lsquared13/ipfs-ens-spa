@@ -3,6 +3,7 @@ import Alert from 'react-s-alert';
 import { globalHistory } from '@reach/router';
 import { QueryParamProvider } from 'use-query-params';
 import Footer from './Footer';
+import Box from './sharedUI/Box';
 
 /**
  * Outermost wrapper component on the application, provides for a default
@@ -12,15 +13,14 @@ import Footer from './Footer';
  */
 export const AppContainer:FC = ({ children }) => {
   const footer = null;
+  console.log('test')
   return (
     <QueryParamProvider reachHistory={globalHistory}>
-    <div id='App'>
       <Alert />
-      <div id='WrappedPage'>
+        <Box flex='grow' paddingX={12} paddingY={4} marginLeft={12} width='100%' alignContent='center'>
         { children }
-      </div>
+        </Box>
       <Footer />
-    </div>
     </QueryParamProvider>
   )
 }
