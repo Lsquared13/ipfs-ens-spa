@@ -23,8 +23,6 @@ export interface ConfirmStageProps {
 
 const ConfirmStage: FC<ConfirmStageProps & StateProps & DispatchProps> = (props) => {
   const { newDeploy, startDeploy, loading } = props;
-  const deployName = newDeploy.ensName;
-
   return (
     <>
       <h2>Please confirm your deployment's details:</h2>
@@ -38,7 +36,7 @@ const ConfirmStage: FC<ConfirmStageProps & StateProps & DispatchProps> = (props)
           )
         }) }
       </dl>
-      <Button onClick={()=>startDeploy(newDeploy)}>Create Deployment</Button>
+      <Button disabled={loading} onClick={()=>startDeploy(newDeploy)}>Create Deployment</Button>
     </>
   )
 }
