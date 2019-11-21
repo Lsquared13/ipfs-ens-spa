@@ -10,11 +10,15 @@ import { AppState } from '../../state/store';
 import { DeployArgs } from '@eximchain/ipfs-ens-types/spec/deployment';
 import { AsyncDispatch } from '../../state/sharedTypes';
 import { Button } from '../sharedUI';
+import { NavigateFn } from '@reach/router';
 
 export * from './Stage1-Repo';
 export * from './Stage2-Branch';
 export * from './Stage4-Confirm';
 
+export interface NewDeployFlowProps {
+  navigate: NavigateFn | undefined
+}
 interface StateProps extends DeployArgs {
 
 }
@@ -23,22 +27,26 @@ interface DispatchProps {
   restart: () => void
 }
 
-const WithReset:FC<DispatchProps> = ({ children, restart }) => {
+const WithReset:FC<DispatchProps & { goHome: () => void }> = ({ children, restart, goHome }) => {
   return (
     <>
       { children }
       <Button onClick={restart}>Restart Process</Button>
+      <Button onClick={goHome}>Go Home</Button>
     </>
   )
 }
 
-const NewDeployFlowRouter:FC<StateProps & StateProps & DispatchProps> = (props) => {
-  const { ensName, repo, owner, branch, packageDir, buildDir, restart } = props;
+const NewDeployFlowRouter:FC<NewDeployFlowProps & StateProps & DispatchProps> = (props) => {
+  const { ensName, repo, owner, branch, packageDir, buildDir, restart, navigate } = props;
   
+  function goHome(){ navigate && navigate('/') }
+
+  const flowProps = { restart, goHome };
 
   if (repo === '' || owner === '') {
     return (
-      <WithReset restart={restart}>
+      <WithReset {...flowProps}>
         <RepoStage />
       </WithReset>
     )
@@ -46,7 +54,7 @@ const NewDeployFlowRouter:FC<StateProps & StateProps & DispatchProps> = (props) 
 
   if (branch === '') {
     return (
-      <WithReset restart={restart}>
+      <WithReset {...flowProps}>
         <BranchStage />
       </WithReset>
     )
@@ -54,14 +62,14 @@ const NewDeployFlowRouter:FC<StateProps & StateProps & DispatchProps> = (props) 
 
   if (ensName === '' || packageDir === '' || buildDir === '') {
     return (
-      <WithReset restart={restart}>
+      <WithReset {...flowProps}>
         <BuildStage />
       </WithReset>
     )
   }
 
   return (
-    <WithReset restart={restart}>
+    <WithReset {...flowProps}>
       <ConfirmStage />
     </WithReset>
   )

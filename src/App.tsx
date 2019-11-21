@@ -12,12 +12,11 @@ const App: React.FC = () => {
     <AppContainer>
       <Router>
         <AuthGateway path='/'>
-          {/* 
+          
           Below commented out pending a list handler
           
-          <DeployListPage default />
-          <NewDeployPage path='new' /> */}
-          <NewDeployPage path='/' />
+          <DeployListPage path='/' />
+          <NewDeployPage path='new' />
           <DeployDetailPage path='/deploy/:deployName' />
           <PageNotFound default />
         </AuthGateway>
