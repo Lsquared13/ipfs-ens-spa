@@ -37,11 +37,12 @@ const DeployDetailPage: FC<DeployDetailPageProps & StateProps & ActionProps> = (
   if (!deploy) return <p>No deploy found in state.</p>
 
   return (
-    <Box>
+    <>
+      <h1>IPFS ENS Deployer</h1>
       <h2>{deployName} Details</h2>
       <JSONPretty id='deploy-details' data={deploy} />
       <Button onClick={()=>{if (navigate) navigate('/')}}>Go Home</Button>
-    </Box>
+    </>
   )
 }
 

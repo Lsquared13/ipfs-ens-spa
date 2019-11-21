@@ -49,7 +49,8 @@ const DeployListPage: FC<DeployListPageProps & StateProps & DispatchProps> = (pr
 
   return (
     <>
-      <h1>Deployments</h1>
+      <h1>IPFS ENS Deployer</h1>
+      <h2>All Deployments</h2>
       { content }
       <Button onClick={goToNew}>New Deployment</Button>
     </>
