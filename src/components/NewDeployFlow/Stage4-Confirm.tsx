@@ -25,7 +25,7 @@ const ConfirmStage: FC<ConfirmStageProps & StateProps & DispatchProps> = (props)
   const { newDeploy, startDeploy, loading } = props;
   return (
     <>
-      <h2>Please confirm your deployment's details:</h2>
+      <p>Please confirm your deployment's details:</p>
       <dl>
         { Object.keys(newDeploy).map(field => {
           return (

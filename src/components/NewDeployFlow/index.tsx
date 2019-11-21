@@ -8,32 +8,63 @@ import BuildStage from './Stage3-Build';
 import ConfirmStage from './Stage4-Confirm';
 import { AppState } from '../../state/store';
 import { DeployArgs } from '@eximchain/ipfs-ens-types/spec/deployment';
+import { AsyncDispatch } from '../../state/sharedTypes';
+import { Button } from '../sharedUI';
 
 export * from './Stage1-Repo';
 export * from './Stage2-Branch';
 export * from './Stage4-Confirm';
 
-interface StateProps {
+interface StateProps extends DeployArgs {
 
 }
 
+interface DispatchProps {
+  restart: () => void
+}
 
-const NewDeployFlowRouter:FC<StateProps & DeployArgs> = (props) => {
-  const { ensName, repo, owner, branch, packageDir, buildDir } = props;
+const WithReset:FC<DispatchProps> = ({ children, restart }) => {
+  return (
+    <>
+      { children }
+      <Button onClick={restart}>Restart Process</Button>
+    </>
+  )
+}
+
+const NewDeployFlowRouter:FC<StateProps & StateProps & DispatchProps> = (props) => {
+  const { ensName, repo, owner, branch, packageDir, buildDir, restart } = props;
   
+
   if (repo === '' || owner === '') {
-    return <RepoStage />
+    return (
+      <WithReset restart={restart}>
+        <RepoStage />
+      </WithReset>
+    )
   }
 
   if (branch === '') {
-    return <BranchStage />
+    return (
+      <WithReset restart={restart}>
+        <BranchStage />
+      </WithReset>
+    )
   }
 
   if (ensName === '' || packageDir === '' || buildDir === '') {
-    return <BuildStage />
+    return (
+      <WithReset restart={restart}>
+        <BuildStage />
+      </WithReset>
+    )
   }
 
-  return <ConfirmStage />
+  return (
+    <WithReset restart={restart}>
+      <ConfirmStage />
+    </WithReset>
+  )
 };
 
 const mapStateToProps = (state:AppState) => {
@@ -42,6 +73,12 @@ const mapStateToProps = (state:AppState) => {
   }
 }
 
-export const NewDeployFlow = connect(mapStateToProps)(NewDeployFlowRouter);
+const mapDispatchToProps = (dispatch:AsyncDispatch) => {
+  return {
+    restart: () => dispatch(DeployActions.resetNewDeploy())
+  }
+}
+
+export const NewDeployFlow = connect(mapStateToProps, mapDispatchToProps)(NewDeployFlowRouter);
 
 export default connect(mapStateToProps)(NewDeployFlow);

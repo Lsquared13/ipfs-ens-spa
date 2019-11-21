@@ -1,4 +1,4 @@
-import React, { useEffect, FC } from 'react';
+import React, { useEffect, FC, useState } from 'react';
 import { connect } from 'react-redux';
 import { GitTypes } from '@eximchain/ipfs-ens-types/spec/deployment';
 
@@ -7,6 +7,7 @@ import { AppState } from '../../state/store';
 import { AsyncDispatch } from '../../state/sharedTypes';
 
 import Select from '../sharedUI/SelectList';
+import { Button } from '../sharedUI';
 
 interface StateProps {
   repos: GitTypes.Repo[],
@@ -28,6 +29,12 @@ const RepoStage: FC<RepoStageProps & StateProps & DispatchProps> = (props) => {
   useEffect(function fetchReposOnMount() {
     fetchRepos()
   }, []);
+
+  const [selectedRepo, setSelectedRepo] = useState('');
+  function proceed(){
+    const [owner, name] = selectedRepo.split('/');
+    selectRepo(owner, name);
+  }
 
   if (reposLoading) return (
     <p>Loading repos, please wait...</p>
@@ -56,6 +63,7 @@ const RepoStage: FC<RepoStageProps & StateProps & DispatchProps> = (props) => {
           selectRepo(owner, name);
         }}
         options={repoOptions} />
+      <Button onClick={proceed} disabled={selectedRepo === ''}>Proceed</Button>
     </>
   )
 }

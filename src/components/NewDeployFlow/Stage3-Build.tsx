@@ -27,7 +27,7 @@ const BranchStage: FC<BranchStageProps & StateProps & DispatchProps> = (props) =
   const [pkgDir, setPkgDir] = useState('./');
   const [buildDir, setBuildDir] = useState('./build');
 
-  function setValues(){
+  function proceed(){
     updateNewDeploy('ensName', ensState);
     updateNewDeploy('packageDir', pkgDir);
     updateNewDeploy('buildDir', buildDir);
@@ -35,11 +35,11 @@ const BranchStage: FC<BranchStageProps & StateProps & DispatchProps> = (props) =
 
   return (
     <>
-      <h2>Please configure your deployment's details:</h2>
+      <p>Please configure your deployment's details:</p>
       <StringField name='ENS Name' value={ensState} onChange={setEnsState} />
       <StringField name='Package Directory' value={pkgDir} onChange={setPkgDir} />
       <StringField name='Build Directory' value={buildDir} onChange={setBuildDir} />
-      <Button onClick={setValues}>Proceed</Button>
+      <Button onClick={proceed}>Proceed</Button>
     </>
   )
 }

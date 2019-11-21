@@ -1,12 +1,12 @@
-import React, { useEffect, FC } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, FC, useState} from 'react';
+import { connect, useSelector } from 'react-redux';
 import { GitTypes } from '@eximchain/ipfs-ens-types/spec/deployment';
 
 import { DeployActions, GitSelectors, GitActions, DeploySelectors } from '../../state';
 import { AppState } from '../../state/store';
 import { AsyncDispatch } from '../../state/sharedTypes';
 
-import Select from '../sharedUI/SelectList';
+import { SelectList, Button } from '../sharedUI';
 
 interface StateProps {
   branches: GitTypes.Branch[]
@@ -30,7 +30,10 @@ const BranchStage: FC<BranchStageProps & StateProps & DispatchProps> = (props) =
   // useEffect(function fetchBranchesOnMount() {
   //   fetchBranches(owner, repo);
   // }, []);
-
+  const [selectedBranch, setSelectedBranch] = useState('');
+  function proceed(){
+    selectBranch(selectedBranch);
+  }
   if (branchesLoading) return (
     <p>Loading branches, please wait...</p>
   )
@@ -41,15 +44,16 @@ const BranchStage: FC<BranchStageProps & StateProps & DispatchProps> = (props) =
 
   return (
     <>
-      <h2>Please select a branch from @{owner}/{repo}:</h2>
-      <Select id='select-branch'
+      <p>Please select a branch from @{owner}/{repo}:</p>
+      <SelectList id='select-branch'
         onChange={({ value }) => {
-          selectBranch(value);
+          setSelectedBranch(value);
         }}
         options={branches.map(branch => ({
-          label: `${branch.name} (${branch.commit})`,
+          label: `${branch.name} (${branch.commit.sha})`,
           value: branch.name
         }))} />
+      <Button onClick={proceed} disabled={selectedBranch === ''}>Proceed</Button>
     </>
   )
 }
