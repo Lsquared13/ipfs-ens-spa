@@ -27,15 +27,15 @@ export interface BranchStageProps {
 const BranchStage: FC<BranchStageProps & StateProps & DispatchProps> = (props) => {
   const { branches, branchesLoading, repo, owner, fetchBranches, selectBranch } = props;
 
-  useEffect(function fetchBranchesOnMount() {
-    fetchBranches(owner, repo);
-  }, []);
+  // useEffect(function fetchBranchesOnMount() {
+  //   fetchBranches(owner, repo);
+  // }, []);
 
   if (branchesLoading) return (
     <p>Loading branches, please wait...</p>
   )
 
-  if (branches.length === 0) return (
+  if (branches === undefined) return (
     <p>No branches to display.</p>
   )
 

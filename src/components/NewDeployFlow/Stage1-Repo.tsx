@@ -73,6 +73,7 @@ const mapDispatchToProps = (dispatch: AsyncDispatch) => {
     selectRepo: (repo: string, owner: string) => {
       dispatch(DeployActions.updateNewDeploy({ field: 'repo', value: repo }));
       dispatch(DeployActions.updateNewDeploy({ field: 'owner', value: owner }));
+      dispatch(GitActions.fetchBranches(owner, repo));
     }
   }
 }
