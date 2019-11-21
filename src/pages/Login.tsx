@@ -61,10 +61,6 @@ const LoginPage: FC<LoginPageProps & StateProps & DispatchProps> = (props) => {
     </a>
   )
 
-  if (error) content = (
-    <pre>{JSON.stringify(error, null, 2)}</pre>
-  )
-
   if (code && !token) content = (
     // We have a code, but no token -- must be waiting for
     // a response to tokenFetch.
@@ -83,6 +79,10 @@ const LoginPage: FC<LoginPageProps & StateProps & DispatchProps> = (props) => {
     // lets users through to the app.  Leaving it here for
     // debugging purposes.
     <p>Login complete!  You should see the new deployment form now.</p>
+  )
+
+  if (error) content = (
+    <pre>{JSON.stringify(error, null, 2)}</pre>
   )
 
   return (
