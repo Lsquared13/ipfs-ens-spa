@@ -40,10 +40,10 @@ const RepoStage: FC<RepoStageProps & StateProps & DispatchProps> = (props) => {
   // 1. If they haven't chosen a repo yet, present
   // the multiselect input
   const repoOptions = repos.map(repo => {
-    const { owner, name } = repo;
+    const { full_name } = repo;
     return {
-      label: `@${owner}/${name}`,
-      value: `${owner}/${name}`
+      label: `@${full_name}`,
+      value: `${full_name}`
     }
   })
 

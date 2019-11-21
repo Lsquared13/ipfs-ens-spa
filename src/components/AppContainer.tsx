@@ -17,7 +17,11 @@ export const AppContainer:FC = ({ children }) => {
   return (
     <QueryParamProvider reachHistory={globalHistory}>
       <Alert />
-        <Box flex='grow' paddingX={12} paddingY={4} marginLeft={12} width='100%' alignContent='center'>
+        <Box flex='grow' dangerouslySetInlineStyle={{
+          minWidth: '60%',
+          textAlign: 'center',
+          marginTop: '6em'
+        }}>
         { children }
         </Box>
       <Footer />
