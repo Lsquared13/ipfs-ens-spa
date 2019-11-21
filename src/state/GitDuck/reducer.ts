@@ -26,7 +26,7 @@ export const GitReducer = reducerWithInitialState(initialState)
   .case(saveRepos, (state, repos) => shallowMerge(state, { repos }))
   .case(setReposLoading, (state, reposLoading) => shallowMerge(state, { reposLoading }))
   .case(saveBranches, (state, { repo, branches }) => shallowMerge(state, {
-    repos: shallowMerge(state.repos, { [repo] : branches })
+    branches: shallowMerge(state.branches, { [repo] : branches })
   }))
   .case(setBranchesLoading, (state, branchesLoading) => shallowMerge(state, { branchesLoading }))
   .case(setError, (state, error) => shallowMerge(state, { error }))

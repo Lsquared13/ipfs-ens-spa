@@ -57,7 +57,7 @@ const BranchStage: FC<BranchStageProps & StateProps & DispatchProps> = (props) =
 const mapStateToProps = (state: AppState) => {
   const { repo, owner } = DeploySelectors.getNewDeploy(state);
   return {
-    branches: GitSelectors.getBranches(state)[repo],
+    branches: GitSelectors.getBranches(state)[`${owner}/${repo}`],
     branchesLoading: GitSelectors.isLoading(state).branches,
     repo, owner
   }
