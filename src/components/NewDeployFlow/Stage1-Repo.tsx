@@ -26,11 +26,19 @@ export interface RepoStageProps {
 const RepoStage: FC<RepoStageProps & StateProps & DispatchProps> = (props) => {
   const { repos, fetchRepos, selectRepo, reposLoading } = props;
 
+  const [selectedRepo, setSelectedRepo] = useState('');
+
   useEffect(function fetchReposOnMount() {
     fetchRepos()
   }, []);
 
-  const [selectedRepo, setSelectedRepo] = useState('');
+  useEffect(function autoselectFirstRepo() {
+    if (selectedRepo === '' && repos.length > 0) {
+      setSelectedRepo(repos[0].full_name);
+    }
+  }, [repos, selectedRepo])
+
+  
   function proceed(){
     const [owner, name] = selectedRepo.split('/');
     selectRepo(owner, name);

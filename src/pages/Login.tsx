@@ -36,12 +36,14 @@ const LoginPage: FC<LoginPageProps & StateProps & DispatchProps> = (props) => {
   } = props;
   // use-query-param library seamlessly handles grabbing & parsing this value
   const [code, setCode] = useQueryParam('code', StringParam);
-
+  const [stateParam, setStateParam] = useQueryParam('state', StringParam);
   useEffect(function fetchTokenWithCode() {
     if (!code) return;
     if (token || authLoading || error) return;
     console.log('Have code, no token, auth not loading; fetching an access token');
     fetchAuth(code);
+    setCode(null);
+    setStateParam(null);
   }, [code, token, authLoading, fetchAuth, error]);
 
   useEffect(function fetchUserWithToken() {

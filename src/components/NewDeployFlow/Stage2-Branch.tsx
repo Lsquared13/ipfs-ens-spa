@@ -27,10 +27,13 @@ export interface BranchStageProps {
 const BranchStage: FC<BranchStageProps & StateProps & DispatchProps> = (props) => {
   const { branches, branchesLoading, repo, owner, fetchBranches, selectBranch } = props;
 
-  // useEffect(function fetchBranchesOnMount() {
-  //   fetchBranches(owner, repo);
-  // }, []);
   const [selectedBranch, setSelectedBranch] = useState('');
+  useEffect(function autoSelectFirstBranch() {
+    if (branches && selectedBranch === '') {
+      setSelectedBranch(branches[0].name);
+    }
+  }, [selectedBranch, branches])
+
   function proceed(){
     selectBranch(selectedBranch);
   }
