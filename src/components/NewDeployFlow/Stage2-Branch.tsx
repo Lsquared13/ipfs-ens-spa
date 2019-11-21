@@ -49,6 +49,7 @@ const BranchStage: FC<BranchStageProps & StateProps & DispatchProps> = (props) =
         onChange={({ value }) => {
           setSelectedBranch(value);
         }}
+        value={selectedBranch}
         options={branches.map(branch => ({
           label: `${branch.name} (${branch.commit.sha})`,
           value: branch.name

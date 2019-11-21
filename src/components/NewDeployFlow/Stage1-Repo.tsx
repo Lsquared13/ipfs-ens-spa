@@ -59,9 +59,9 @@ const RepoStage: FC<RepoStageProps & StateProps & DispatchProps> = (props) => {
       <h2>Please select an app repostiory:</h2>
       <Select id='select-repo'
         onChange={({ value }) => {
-          const [owner, name] = value.split('/');
-          selectRepo(owner, name);
+          setSelectedRepo(value)
         }}
+        value={selectedRepo}
         options={repoOptions} />
       <Button onClick={proceed} disabled={selectedRepo === ''}>Proceed</Button>
     </>
