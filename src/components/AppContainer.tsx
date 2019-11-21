@@ -13,8 +13,6 @@ import Box from './sharedUI/Box';
  * @param param0 
  */
 export const AppContainer: FC = ({ children }) => {
-  const footer = null;
-  console.log('test')
   return (
     <QueryParamProvider reachHistory={globalHistory}>
       <Alert />

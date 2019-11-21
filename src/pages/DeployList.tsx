@@ -22,7 +22,6 @@ interface DispatchProps {
 }
 
 const DeployListPage: FC<DeployListPageProps & StateProps & DispatchProps> = (props) => {
-  console.log('DeployList got to start of render');
   const { deploys, loadDeploys, error, loading, navigate } = props;
 
   useEffect(function loadDeploysOnMount() {
@@ -37,7 +36,6 @@ const DeployListPage: FC<DeployListPageProps & StateProps & DispatchProps> = (pr
     <DeploymentTable deployments={Object.values(deploys)} />
   )
 
-  console.log('Created DeploymentTable');
   if (loading) content = (
     <p>Loading your deployments...</p>
   )
@@ -60,7 +58,6 @@ const DeployListPage: FC<DeployListPageProps & StateProps & DispatchProps> = (pr
 }
 
 const mapStateToProps = (state:AppState) => {
-  console.log('Ran mapStateToProps on DeployList')
   return {
     deploys: DeploySelectors.getDeploys(state),
     error: DeploySelectors.getErr(state),
@@ -69,7 +66,6 @@ const mapStateToProps = (state:AppState) => {
 }
 
 const mapDispatchToProps = (dispatch:AsyncDispatch) => {
-  console.log('Ran mapDispatchToProps on DeployList');
   return {
     loadDeploys: () => dispatch(DeployActions.fetchDeploys())
   }

@@ -40,7 +40,6 @@ const LoginPage: FC<LoginPageProps & StateProps & DispatchProps> = (props) => {
   useEffect(function fetchTokenWithCode() {
     if (!code) return;
     if (token || authLoading || error) return;
-    console.log('Have code, no token, auth not loading; fetching an access token');
     fetchAuth(code);
     setCode(null);
     setStateParam(null);
@@ -49,9 +48,6 @@ const LoginPage: FC<LoginPageProps & StateProps & DispatchProps> = (props) => {
   useEffect(function fetchUserWithToken() {
     if (!token) return;
     if (user || userLoading || error) return;
-    // TODO: Remove code from query once we know loop is behaving
-    // setCode('');
-    console.log('Have token, no user, userLoading is false; fetching user');
     fetchUser();
   }, [token, user, userLoading, fetchUser])
 
