@@ -1,2 +1,2 @@
 export * from './AppContainer';
-export * from './AuthChecker';
+export * from './AuthGateway';

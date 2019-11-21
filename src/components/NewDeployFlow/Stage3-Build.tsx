@@ -1,7 +1,7 @@
 import React from 'react';
 
-export const BranchStage = () => (
+export const BuildStage = () => (
   <p>Branch Stage Under Construction</p>
 )
 
-export default BranchStage;
+export default BuildStage;

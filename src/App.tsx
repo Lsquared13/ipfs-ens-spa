@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppContainer, AuthChecker } from './components';
+import { AppContainer, AuthGateway } from './components';
 import { 
   DeployListPage, DeployDetailPage, NewDeployPage, LoginPage, 
   PageNotFound
@@ -11,13 +11,16 @@ const App: React.FC = () => {
   return (
     <AppContainer>
       <Router>
-        <AuthChecker path='/'>
+        <AuthGateway path='/'>
+          {/* 
+          Below commented out pending a list handler
+          
           <DeployListPage default />
-          <LoginPage path='login' />
-          <NewDeployPage path='new' />
+          <NewDeployPage path='new' /> */}
+          <NewDeployPage default />
           <DeployDetailPage path='deploy/:deployName' />
           <PageNotFound path='*' />
-        </AuthChecker>
+        </AuthGateway>
       </Router>
     </AppContainer>
   )

@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 import Alert from 'react-s-alert';
+import { globalHistory } from '@reach/router';
+import { QueryParamProvider } from 'use-query-params';
 import Footer from './Footer';
 
 /**
@@ -11,6 +13,7 @@ import Footer from './Footer';
 export const AppContainer:FC = ({ children }) => {
   const footer = null;
   return (
+    <QueryParamProvider reachHistory={globalHistory}>
     <div id='App'>
       <Alert />
       <div id='WrappedPage'>
@@ -18,6 +21,7 @@ export const AppContainer:FC = ({ children }) => {
       </div>
       <Footer />
     </div>
+    </QueryParamProvider>
   )
 }
 

@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { Deployment } from '../types';
 import { Table } from './sharedUI';
+import { DeployItem } from '@eximchain/ipfs-ens-types/spec/deployment';
 
 export interface DeploymentTableProps {
-  deployments: Deployment[]
+  deployments: DeployItem[]
 }
 
 export const DeploymentTable:FC<DeploymentTableProps> = (props) => {
