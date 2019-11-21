@@ -11,10 +11,7 @@ const App: React.FC = () => {
   return (
     <AppContainer>
       <Router>
-        <AuthGateway path='/'>
-          
-          Below commented out pending a list handler
-          
+        <AuthGateway path='/'>          
           <DeployListPage path='/' />
           <NewDeployPage path='new' />
           <DeployDetailPage path='/deploy/:deployName' />

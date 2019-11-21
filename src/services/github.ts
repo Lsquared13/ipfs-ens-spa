@@ -9,7 +9,7 @@ export class Git {
   constructor(oauthToken:string|null) {
     this.oauthToken = oauthToken;
     this.API = oauthToken ? new Octokit({ auth : oauthToken}) : new Octokit();
-    const redirectUrl = `${process.env.PUBLIC_URL}${window.location.pathname}`;
+    const redirectUrl = `${window.location.hostname}${window.location.pathname}`;
     console.log('Found following redirect URL: ',redirectUrl)
     this.loginUrl = oauthLoginUrl({
       clientId: GITHUB_CLIENT_ID as string,
