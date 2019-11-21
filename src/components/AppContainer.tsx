@@ -19,7 +19,7 @@ export const AppContainer:FC = ({ children }) => {
       <Alert />
         <Box flex='grow' dangerouslySetInlineStyle={{
           minWidth: '60%',
-          textAlign: 'center',
+          maxWidth: '60%',
           marginTop: '6em'
         }}>
         { children }
