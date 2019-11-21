@@ -11,7 +11,7 @@ export class Git {
     this.API = oauthToken ? new Octokit({ auth : oauthToken}) : new Octokit();
     this.loginUrl = oauthLoginUrl({
       clientId: GITHUB_CLIENT_ID as string,
-      redirectUrl: process.env.PUBLIC_URL,
+      redirectUrl: `${process.env.PUBLIC_URL}/${window.location.pathname}`,
       scopes: REQUIRED_AUTH_SCOPES
     })
   }
