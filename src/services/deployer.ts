@@ -30,7 +30,7 @@ export class Deployer {
   }
 
   async createDeployment(args:DeployArgs) {
-    const res = await this.makeRequest(
+    const res:CreateDeployment.Response = await this.makeRequest(
       CreateDeployment.Path(args.ensName),
       CreateDeployment.HTTP,
       args
@@ -42,7 +42,7 @@ export class Deployer {
 
   async login(code: string):Promise<GitTypes.Auth> {
     const args:Login.Args = { code };
-    const res = await this.makeRequest(
+    const res:Login.Response = await this.makeRequest(
       Login.Path, 
       Login.HTTP,
       args
@@ -53,26 +53,26 @@ export class Deployer {
   }
 
   async listDeployments(): Promise<DeployItem[]> {
-    const res:DeployItem[] = await this.makeRequest(
+    const res:ListDeployments.Response = await this.makeRequest(
       ListDeployments.Path, 
       ListDeployments.HTTP
     )
     if (!isSuccessResponse(res)) throw new Error(`deploysList response did not fit successResponse.`);
     console.log('Received following deploysList response data: ',res.data);
-    return res.data as DeployItem[]
+    return res.data.items as DeployItem[]
   }
 
   async getDeployment(name: string): Promise<DeployItem> {
     // TODO: Implement a "getDeployment" function for getting
     // a single deployment.  If they end up including bigger
     // data, then this one will get the full output.
-    const res = await this.makeRequest(
+    const res:ReadDeployment.Response = await this.makeRequest(
       ReadDeployment.Path(name), 
       ReadDeployment.HTTP
     )
     if (!isSuccessResponse(res)) throw new Error(`deployGet response did not fit successResponse.`);
     console.log('Received following deployGet response data: ',res.data);
-    return res.data as DeployItem;
+    return res.data.item as DeployItem;
   }
 }
 
