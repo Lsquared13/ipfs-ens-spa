@@ -17,9 +17,9 @@ const App: React.FC = () => {
           
           <DeployListPage default />
           <NewDeployPage path='new' /> */}
-          <NewDeployPage default />
-          <DeployDetailPage path='deploy/:deployName' />
-          <PageNotFound path='*' />
+          <NewDeployPage path='/' />
+          <DeployDetailPage path='/deploy/:deployName' />
+          <PageNotFound default />
         </AuthGateway>
       </Router>
     </AppContainer>
