@@ -70,7 +70,8 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = (dispatch: AsyncDispatch) => {
   return {
     fetchRepos: () => dispatch(GitActions.fetchRepos()),
-    selectRepo: (repo: string, owner: string) => {
+    selectRepo: (owner:string, repo:string) => {
+      console.log(`Owner: ${owner}, Repo: ${repo}`);
       dispatch(DeployActions.updateNewDeploy({ field: 'repo', value: repo }));
       dispatch(DeployActions.updateNewDeploy({ field: 'owner', value: owner }));
       dispatch(GitActions.fetchBranches(owner, repo));
