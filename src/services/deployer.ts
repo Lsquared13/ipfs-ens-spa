@@ -19,7 +19,7 @@ export class Deployer {
     const headers: Headers = {
       'Content-Type': 'application/json'
     }
-    if (this.token) headers.Authorization = `${this.token}`;
+    headers.Authorization = this.token || '';
     return request(
       `${process.env.REACT_APP_IPFS_ENS_API_URL}${apiPath}`, {
       method, headers,
