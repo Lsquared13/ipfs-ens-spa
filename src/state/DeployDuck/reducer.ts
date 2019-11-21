@@ -1,7 +1,7 @@
 import { reducerWithInitialState } from "typescript-fsa-reducers";
 import keyBy from 'lodash.keyby';
 import { newDeployArgs } from '@eximchain/ipfs-ens-types/spec/deployment';
-import { mergedState } from '..';
+import { shallowMerge } from '..';
 import { DeployState } from './types';
 import { 
   resetNewDeploy, updateNewDeploy, saveDeploys,
@@ -17,15 +17,15 @@ const initialState:DeployState = {
 }
 
 export const DeployReducer = reducerWithInitialState(initialState)
-  .case(resetNewDeploy, (state) => mergedState(state, { newDeploy : newDeployArgs() }))
-  .case(updateNewDeploy, (state, { field, value }) => mergedState(state, {
-    newDeploy: mergedState(state.newDeploy, { [field] : value })
+  .case(resetNewDeploy, (state) => shallowMerge(state, { newDeploy : newDeployArgs() }))
+  .case(updateNewDeploy, (state, { field, value }) => shallowMerge(state, {
+    newDeploy: shallowMerge(state.newDeploy, { [field] : value })
   }))
-  .case(saveDeploys, (state, deploys) => mergedState(state, {
+  .case(saveDeploys, (state, deploys) => shallowMerge(state, {
     deploys: keyBy(deploys, deploy => deploy.ensName)
   }))
-  .case(deploysLoading, (state, deploysLoading) => mergedState(state, { deploysLoading }))
-  .case(newDeployLoading, (state, newDeployLoading) => mergedState(state, { newDeployLoading }))
-  .case(setError, (state, error) => mergedState(state, { error }))
+  .case(deploysLoading, (state, deploysLoading) => shallowMerge(state, { deploysLoading }))
+  .case(newDeployLoading, (state, newDeployLoading) => shallowMerge(state, { newDeployLoading }))
+  .case(setError, (state, error) => shallowMerge(state, { error }))
 
 export default DeployReducer;

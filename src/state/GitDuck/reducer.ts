@@ -1,5 +1,5 @@
 import { reducerWithInitialState } from "typescript-fsa-reducers";
-import { mergedState } from '..';
+import { shallowMerge } from '..';
 import { 
   saveAuth, saveBranches, saveRepos, saveUser, setError,
   setAuthLoading, setBranchesLoading, setReposLoading, setUserLoading
@@ -19,16 +19,16 @@ const initialState:GitState = {
 }
 
 export const GitReducer = reducerWithInitialState(initialState)
-  .case(saveAuth, (state, auth) => mergedState(state, { auth }))
-  .case(setAuthLoading, (state, authLoading) => mergedState(state, { authLoading }))
-  .case(saveUser, (state, user) => mergedState(state, { user }))
-  .case(setUserLoading, (state, userLoading) => mergedState(state, { userLoading }))
-  .case(saveRepos, (state, repos) => mergedState(state, { repos }))
-  .case(setReposLoading, (state, reposLoading) => mergedState(state, { reposLoading }))
-  .case(saveBranches, (state, { repo, branches }) => mergedState(state, {
-    repos: mergedState(state.repos, { [repo] : branches })
+  .case(saveAuth, (state, auth) => shallowMerge(state, { auth }))
+  .case(setAuthLoading, (state, authLoading) => shallowMerge(state, { authLoading }))
+  .case(saveUser, (state, user) => shallowMerge(state, { user }))
+  .case(setUserLoading, (state, userLoading) => shallowMerge(state, { userLoading }))
+  .case(saveRepos, (state, repos) => shallowMerge(state, { repos }))
+  .case(setReposLoading, (state, reposLoading) => shallowMerge(state, { reposLoading }))
+  .case(saveBranches, (state, { repo, branches }) => shallowMerge(state, {
+    repos: shallowMerge(state.repos, { [repo] : branches })
   }))
-  .case(setBranchesLoading, (state, branchesLoading) => mergedState(state, { branchesLoading }))
-  .case(setError, (state, error) => mergedState(state, { error }))
+  .case(setBranchesLoading, (state, branchesLoading) => shallowMerge(state, { branchesLoading }))
+  .case(setError, (state, error) => shallowMerge(state, { error }))
 
 export default GitReducer;
