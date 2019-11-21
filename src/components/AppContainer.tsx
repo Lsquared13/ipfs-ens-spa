@@ -20,7 +20,9 @@ export const AppContainer:FC = ({ children }) => {
         <Box flex='grow' dangerouslySetInlineStyle={{
           minWidth: '60%',
           maxWidth: '60%',
-          marginTop: '6em'
+          marginTop: '6em',
+          marginLeft: '20%',
+          marginRight: '20%'
         }}>
         { children }
         </Box>
