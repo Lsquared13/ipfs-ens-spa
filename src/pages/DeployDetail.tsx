@@ -27,6 +27,9 @@ const DeployDetailPage: FC<DeployDetailPageProps & StateProps & ActionProps> = (
   useEffect(function loadDeployIfMissing(){
     if (!deployName) return;
     if (loading || error || deploy) return;
+    console.log('Attempting to fetch deploy, state is following: ', {
+      deployName, deploy, loading, error
+    })
     fetchDeploy(deployName)
   }, [loading, error, deploy, deployName, fetchDeploy])
 
@@ -47,7 +50,7 @@ const mapStateToProps = (state: AppState, ownProps: DeployDetailPageProps) => {
   return {
     deploy: deployName ? DeploySelectors.getDeploy(deployName)(state) : null,
     loading: DeploySelectors.isLoading.deploys(state),
-    error: state.deploy.error
+    error: DeploySelectors.getErr(state)
   }
 }
 
