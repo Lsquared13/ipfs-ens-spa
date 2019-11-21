@@ -55,8 +55,6 @@ export interface SearchFieldState {
   hovered: boolean;
 }
 
-export default SearchField;
-
 export class SearchField extends React.Component<
   SearchFieldProps,
   SearchFieldState
@@ -169,3 +167,6 @@ export class SearchField extends React.Component<
     );
   }
 }
+
+
+export default SearchField;

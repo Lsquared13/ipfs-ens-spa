@@ -1,5 +1,5 @@
 import { reducerWithInitialState } from "typescript-fsa-reducers";
-import { shallowMerge } from '..';
+import { shallowMerge } from '../sharedTypes';
 import { 
   saveAuth, saveBranches, saveRepos, saveUser, setError,
   setAuthLoading, setBranchesLoading, setReposLoading, setUserLoading

@@ -1,7 +1,7 @@
 import { reducerWithInitialState } from "typescript-fsa-reducers";
 import keyBy from 'lodash.keyby';
 import { newDeployArgs } from '@eximchain/ipfs-ens-types/spec/deployment';
-import { shallowMerge } from '..';
+import { shallowMerge } from '../sharedTypes';
 import { DeployState } from './types';
 import { 
   resetNewDeploy, updateNewDeploy, saveDeploys,
