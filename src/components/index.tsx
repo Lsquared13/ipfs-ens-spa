@@ -1,3 +1,4 @@
+export * from './ApiErr';
 export * from './AppContainer';
 export * from './AuthGateway';
 export * from './DeploySearch';

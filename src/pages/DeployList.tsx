@@ -2,8 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from '@reach/router';
 import { DeployItem } from '@eximchain/ipfs-ens-types/spec/deployment';
-import { Box, Button } from '../components/sharedUI';
-import DeploymentTable from '../components/DeploymentTable';
+import { Box, Button, DeploymentTable, ApiError } from '../components';
 import { AppState, DeployActions, DeploySelectors } from '../state';
 import { AsyncDispatch } from '../state/sharedTypes';
 
@@ -43,7 +42,7 @@ const DeployListPage: FC<DeployListPageProps & StateProps & DispatchProps> = (pr
   if (error) content = (
     <>
       <p>Error fetching your deployments:</p>
-      <pre>{ JSON.stringify(error, null, 2)}</pre>
+      <ApiError {...{ error }} />
     </>
   )
 
