@@ -21,7 +21,7 @@ export class Deployer {
     }
     headers.Authorization = this.token || '';
     return request(
-      `https://${process.env.REACT_APP_IPFS_ENS_API_URL}${apiPath}`, {
+      `${process.env.REACT_APP_IPFS_ENS_API_URL}${apiPath}`, {
       method, headers,
       // If there are no args, settings JSON to true ensures
       // the body is parsed before returning to us.
