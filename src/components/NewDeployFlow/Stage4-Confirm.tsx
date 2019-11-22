@@ -20,11 +20,16 @@ interface DispatchProps {
 }
 
 export interface ConfirmStageProps {
-
+  goHome: () => void
 }
 
 const ConfirmStage: FC<ConfirmStageProps & StateProps & DispatchProps> = (props) => {
-  const { newDeploy, startDeploy, loading, error } = props;
+  const { newDeploy, startDeploy, loading, error, goHome } = props;
+
+  function confirm() {
+    startDeploy(newDeploy);
+    goHome();
+  }
   return (
     <>
       <p>Please confirm your deployment's details:</p>
@@ -41,7 +46,7 @@ const ConfirmStage: FC<ConfirmStageProps & StateProps & DispatchProps> = (props)
       {
         error && <ApiError error={error} />
       }
-      <Button disabled={loading} onClick={()=>startDeploy(newDeploy)}>Create Deployment</Button>
+      <Button disabled={loading} onClick={confirm}>Create Deployment</Button>
     </>
   )
 }

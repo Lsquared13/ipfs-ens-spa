@@ -71,7 +71,7 @@ const NewDeployFlowRouter:FC<NewDeployFlowProps & StateProps & DispatchProps> = 
 
   return (
     <WithReset {...flowProps}>
-      <ConfirmStage />
+      <ConfirmStage goHome={goHome} />
     </WithReset>
   )
 };
