@@ -1,6 +1,7 @@
 import React, { useState, FC, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { GitTypes, DeployArgs } from '@eximchain/ipfs-ens-types/spec/deployment';
+import JSONPretty from 'react-json-pretty';
+import { DeployArgs } from '@eximchain/ipfs-ens-types/spec/deployment';
 
 import { DeployActions, DeploySelectors } from '../../state';
 import { AppState } from '../../state/store';
@@ -33,16 +34,7 @@ const ConfirmStage: FC<ConfirmStageProps & StateProps & DispatchProps> = (props)
   return (
     <>
       <p>Please confirm your deployment's details:</p>
-      <dl>
-        { Object.keys(newDeploy).map(field => {
-          return (
-            <Fragment key={field}>
-              <dt>{field}</dt>
-              <dd>{newDeploy[field as keyof DeployArgs]}</dd>
-            </Fragment>
-          )
-        }) }
-      </dl>
+      <JSONPretty id='confirmArgs' data={newDeploy} />
       {
         error && <ApiError error={error} />
       }
