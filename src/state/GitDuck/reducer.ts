@@ -1,7 +1,7 @@
 import { reducerWithInitialState } from "typescript-fsa-reducers";
 import { shallowMerge } from '../sharedTypes';
 import { 
-  saveAuth, saveBranches, saveRepos, saveUser, setError,
+  saveAuth, saveBranches, saveRepos, saveUser, setError, resetAuth,
   setAuthLoading, setBranchesLoading, setReposLoading, setUserLoading
 } from './actions';
 import { GitState } from './types';
@@ -19,6 +19,7 @@ const initialState:GitState = {
 }
 
 export const GitReducer = reducerWithInitialState(initialState)
+  .case(resetAuth, (state) => shallowMerge(state, { auth: null, user: null }))
   .case(saveAuth, (state, auth) => shallowMerge(state, { auth }))
   .case(setAuthLoading, (state, authLoading) => shallowMerge(state, { authLoading }))
   .case(saveUser, (state, user) => shallowMerge(state, { user }))

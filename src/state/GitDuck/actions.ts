@@ -11,10 +11,10 @@ import { buildApi } from './selectors';
 // and an action, only returns true if the action was of that type.
 const actionCreator = actionCreatorFactory('git');
 
-export const saveAuth = actionCreator<GitTypes.Auth>('save-auth');
+export const saveAuth = actionCreator<GitTypes.Auth|null>('save-auth');
 export const setAuthLoading = actionCreator<boolean>('auth-loading')
 
-export const saveUser = actionCreator<GitTypes.User>('save-user');
+export const saveUser = actionCreator<GitTypes.User|null>('save-user');
 export const setUserLoading = actionCreator<boolean>('user-loading');
 
 export const saveRepos = actionCreator<GitTypes.Repo[]>('save-repos');
@@ -25,6 +25,7 @@ export const setBranchesLoading = actionCreator<boolean>('branches-loading');
 
 export const setError = actionCreator<any>('set-error');
 
+export const resetAuth = actionCreator<void>('reset-auth');
 
 export const fetchAuth:(code:string) => AsyncAction = (code) => {
   return async (dispatch:AsyncDispatch, getState) => {
@@ -35,6 +36,7 @@ export const fetchAuth:(code:string) => AsyncAction = (code) => {
       dispatch(saveAuth(auth))
     } catch (err) {
       console.log('fetchAuth err: ',err);
+      dispatch(resetAuth())
       dispatch(setError(err))
     }
     dispatch(setAuthLoading(false));
@@ -51,6 +53,7 @@ export const fetchUser:() => AsyncAction = () => {
       dispatch(saveUser(user));
     } catch (err) {
       console.log('fetchUser err: ',err);
+      dispatch(resetAuth())
       dispatch(setError(err));
     }
     dispatch(setUserLoading(false));
