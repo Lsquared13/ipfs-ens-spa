@@ -16,11 +16,11 @@ interface DispatchProps {
   updateNewDeploy: (field:keyof DeployArgs, value:string) => void
 }
 
-export interface BranchStageProps {
+export interface BuildStageProps {
 
 }
 
-const BranchStage: FC<BranchStageProps & StateProps & DispatchProps> = (props) => {
+const BuildStage: FC<BuildStageProps & StateProps & DispatchProps> = (props) => {
   const { updateNewDeploy } = props;
 
   const [ensState, setEnsState] = useState('');
@@ -36,9 +36,9 @@ const BranchStage: FC<BranchStageProps & StateProps & DispatchProps> = (props) =
   return (
     <>
       <p>Please configure your deployment's details:</p>
-      <StringField name='ENS Name' value={ensState} onChange={setEnsState} />
-      <StringField name='Package Directory' value={pkgDir} onChange={setPkgDir} />
-      <StringField name='Build Directory' value={buildDir} onChange={setBuildDir} />
+      <StringField displayName='ENS Subname' name='ENS Name' value={ensState} onChange={setEnsState} />
+      <StringField displayName='Package Directory' name='Package Directory' value={pkgDir} onChange={setPkgDir} />
+      <StringField displayName='Build Directory' name='Build Directory' value={buildDir} onChange={setBuildDir} />
       <Button onClick={proceed}>Proceed</Button>
     </>
   )
@@ -56,4 +56,4 @@ const mapDispatchToProps = (dispatch: AsyncDispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BranchStage);
+export default connect(mapStateToProps, mapDispatchToProps)(BuildStage);
