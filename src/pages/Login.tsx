@@ -60,13 +60,13 @@ const LoginPage: FC<LoginPageProps & StateProps & DispatchProps> = (props) => {
     </a>
   )
 
-  if (code && !token) content = (
+  if (authLoading) content = (
     // We have a code, but no token -- must be waiting for
     // a response to tokenFetch.
     <p>Getting an OAuth token, please wait...</p>
   )
 
-  if (token && !user) content = (
+  if (userLoading) content = (
     // We have a token, but no user -- must be waiting for
     // GitHub to respond with the authenticatedUser() call
     <p>Getting username from your profile, please wait...</p>
