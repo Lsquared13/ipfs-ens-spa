@@ -31,6 +31,7 @@ const WithReset:FC<DispatchProps & { goHome: () => void }> = ({ children, restar
   return (
     <>
       { children }
+      <br /><br />
       <Button onClick={restart}>Restart Process</Button>
       <Button onClick={goHome}>Go Home</Button>
     </>
