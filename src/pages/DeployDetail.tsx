@@ -6,6 +6,7 @@ import { AppState, DeploySelectors, DeployActions } from '../state';
 import { DeployItem } from '@eximchain/ipfs-ens-types/spec/deployment';
 import { Box, Button } from '../components/sharedUI';
 import { AsyncDispatch } from '../state/sharedTypes';
+import { ApiError } from '../components';
 
 export interface DeployDetailPageProps extends RouteComponentProps {
   deployName?: string
@@ -33,14 +34,21 @@ const DeployDetailPage: FC<DeployDetailPageProps & StateProps & ActionProps> = (
     fetchDeploy(deployName)
   }, [loading, error, deploy, deployName, fetchDeploy])
 
-  if (!deployName) return <p>No deployName in URL query.</p>
-  if (!deploy) return <p>No deploy found in state.</p>
-
+  let content = null;
+  if (!deployName) content = <p>No deployName in URL query.</p>
+  if (!deploy) content = <p>No deploy found in state.</p>
+  if (error) content = (
+    <ApiError error={error} />
+  )
+  if (deploy) content = (
+    <JSONPretty id='deploy-details' data={deploy} />
+  )
+  if (loading) content = <p>Loading the deploy, please wait...</p>;
   return (
     <>
       <h1>IPFS ENS Deployer</h1>
       <h2>{deployName} Details</h2>
-      <JSONPretty id='deploy-details' data={deploy} />
+      { content }
       <Button onClick={()=>{if (navigate) navigate('/')}}>Go Home</Button>
     </>
   )

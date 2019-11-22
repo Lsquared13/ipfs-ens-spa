@@ -7,10 +7,12 @@ import { AppState } from '../../state/store';
 import { AsyncDispatch } from '../../state/sharedTypes';
 
 import { Button } from '../sharedUI';
+import ApiError from '../ApiErr';
 
 interface StateProps {
   newDeploy: DeployArgs
   loading: boolean
+  error: any
 }
 
 interface DispatchProps {
@@ -22,7 +24,7 @@ export interface ConfirmStageProps {
 }
 
 const ConfirmStage: FC<ConfirmStageProps & StateProps & DispatchProps> = (props) => {
-  const { newDeploy, startDeploy, loading } = props;
+  const { newDeploy, startDeploy, loading, error } = props;
   return (
     <>
       <p>Please confirm your deployment's details:</p>
@@ -36,6 +38,9 @@ const ConfirmStage: FC<ConfirmStageProps & StateProps & DispatchProps> = (props)
           )
         }) }
       </dl>
+      {
+        error && <ApiError error={error} />
+      }
       <Button disabled={loading} onClick={()=>startDeploy(newDeploy)}>Create Deployment</Button>
     </>
   )
@@ -44,7 +49,8 @@ const ConfirmStage: FC<ConfirmStageProps & StateProps & DispatchProps> = (props)
 const mapStateToProps = (state: AppState) => {
   return {
     newDeploy : DeploySelectors.getNewDeploy(state),
-    loading: DeploySelectors.isLoading.newDeploy(state)
+    loading: DeploySelectors.isLoading.newDeploy(state),
+    error: DeploySelectors.getErr(state)
   }
 }
 
