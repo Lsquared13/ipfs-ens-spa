@@ -17,3 +17,14 @@ export const buildApi = {
   Git: createSelector(getToken, token => new Git(token)),
   Deployer: createSelector(getToken, token => new Deployer(token))
 }
+
+export const isLoading = createSelector(getGitState, git => {
+  return {
+    auth: git.authLoading,
+    repos: git.reposLoading,
+    branches: git.branchesLoading,
+    user: git.userLoading
+  }
+})
+
+export const getErr = createSelector(getGitState, git => git.error);

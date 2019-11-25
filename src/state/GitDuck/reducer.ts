@@ -1,6 +1,7 @@
 import { reducerWithInitialState } from "typescript-fsa-reducers";
+import { shallowMerge } from '../sharedTypes';
 import { 
-  saveAuth, saveBranches, saveRepos, saveUser ,
+  saveAuth, saveBranches, saveRepos, saveUser, setError, resetAuth,
   setAuthLoading, setBranchesLoading, setReposLoading, setUserLoading
 } from './actions';
 import { GitState } from './types';
@@ -18,15 +19,17 @@ const initialState:GitState = {
 }
 
 export const GitReducer = reducerWithInitialState(initialState)
-  .case(saveAuth, (state, auth) => Object.assign({}, state, { auth }))
-  .case(setAuthLoading, (state, authLoading) => Object.assign({}, state, { authLoading }))
-  .case(saveUser, (state, user) => Object.assign({}, state, { user }))
-  .case(setUserLoading, (state, userLoading) => Object.assign({}, state, { userLoading }))
-  .case(saveRepos, (state, repos) => Object.assign({}, state, { repos }))
-  .case(setReposLoading, (state, reposLoading) => Object.assign({}, state, { reposLoading }))
-  .case(saveBranches, (state, { repo, branches }) => Object.assign({}, state, { 
-    repos : Object.assign(state.repos, { [repo] : branches })
+  .case(resetAuth, (state) => shallowMerge(state, { auth: null, user: null }))
+  .case(saveAuth, (state, auth) => shallowMerge(state, { auth }))
+  .case(setAuthLoading, (state, authLoading) => shallowMerge(state, { authLoading }))
+  .case(saveUser, (state, user) => shallowMerge(state, { user }))
+  .case(setUserLoading, (state, userLoading) => shallowMerge(state, { userLoading }))
+  .case(saveRepos, (state, repos) => shallowMerge(state, { repos }))
+  .case(setReposLoading, (state, reposLoading) => shallowMerge(state, { reposLoading }))
+  .case(saveBranches, (state, { repo, branches }) => shallowMerge(state, {
+    branches: shallowMerge(state.branches, { [repo] : branches })
   }))
-  .case(setBranchesLoading, (state, branchesLoading) => Object.assign({}, state, { branchesLoading }))
+  .case(setBranchesLoading, (state, branchesLoading) => shallowMerge(state, { branchesLoading }))
+  .case(setError, (state, error) => shallowMerge(state, { error }))
 
 export default GitReducer;

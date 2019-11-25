@@ -1,27 +1,20 @@
 import Octokit from '@octokit/rest';
 import { oauthLoginUrl, Result as LoginUrl } from '@octokit/oauth-login-url';
 
-const baseAuthParams = {
-  clientId: process.env.REACT_APP_OAUTH_CLIENT_ID as string
-}
-
 const GITHUB_CLIENT_ID = process.env.REACT_APP_OAUTH_CLIENT_ID as string;
 
-
-export const githubLoginUrl = oauthLoginUrl({
-  clientId: GITHUB_CLIENT_ID as string,
-  redirectUrl: process.env.PUBLIC_URL,
-  scopes: []
-})
+const REQUIRED_AUTH_SCOPES:string[] = ['read:user','repo'];
 
 export class Git {
   constructor(oauthToken:string|null) {
     this.oauthToken = oauthToken;
     this.API = oauthToken ? new Octokit({ auth : oauthToken}) : new Octokit();
+    const redirectUrl = `https://${window.location.hostname}${window.location.pathname}`;
+    console.log('Found following redirect URL: ',redirectUrl)
     this.loginUrl = oauthLoginUrl({
       clientId: GITHUB_CLIENT_ID as string,
-      redirectUrl: process.env.PUBLIC_URL,
-      scopes: []
+      redirectUrl: redirectUrl,
+      scopes: REQUIRED_AUTH_SCOPES
     })
   }
   API:Octokit

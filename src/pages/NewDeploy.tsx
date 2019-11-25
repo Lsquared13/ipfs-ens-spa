@@ -1,20 +1,18 @@
 import React, { FC } from 'react';
 import { RouteComponentProps } from '@reach/router';
-import { Box } from '../components/sharedUI';
-import NewDeployFlow from '../components/NewDeployFlow';
+import { Box, DeploySearch, NewDeployFlow } from '../components/';
 
 export interface NewDeployPageProps extends RouteComponentProps {
 
 }
 
 export const NewDeployPage: FC<NewDeployPageProps> = (props) => {
-  // TODO: Add a "Login with GitHub" button, along with some
-  // basic info about what the thing is
   return (
-    <Box>
-      <h1>New Deployment</h1>
-      <NewDeployFlow />
-    </Box>
+    <>
+      <h1>IPFS ENS Deployer</h1>
+      <h2>New Deployment</h2>
+      <NewDeployFlow navigate={props.navigate} />
+    </>
   )
 }
 

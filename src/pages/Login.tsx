@@ -1,53 +1,53 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { RouteComponentProps } from '@reach/router';
 import { connect } from 'react-redux';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { Box, Button } from '../components/sharedUI';
 import { AppState } from '../state/store';
-import { GitActions, GitSelectors} from '../state/GitDuck';
+import { GitActions, GitSelectors } from '../state/GitDuck';
 import { AsyncDispatch } from '../state/sharedTypes';
 import { Git } from '../services';
 import { GitTypes } from '@eximchain/ipfs-ens-types/spec/deployment';
+import SelectList from '../components/sharedUI/SelectList';
 
 
 interface StateProps {
-  token: string|null,
+  token: string | null,
   gitLoginUrl: Git['loginUrl']
   authLoading: boolean
   userLoading: boolean
   user: GitTypes.User | null
   auth: GitTypes.Auth | null
+  error: any
 }
 
 interface DispatchProps {
-  fetchAuth: (code:string)=>void
-  fetchUser: ()=>void
+  fetchAuth: (code: string) => void
+  fetchUser: () => void
 }
 export interface LoginPageProps extends RouteComponentProps {
-  
+
 }
 
 const LoginPage: FC<LoginPageProps & StateProps & DispatchProps> = (props) => {
-  const { 
+  const {
     token, gitLoginUrl, user, auth, fetchAuth, fetchUser,
-    userLoading, authLoading
+    userLoading, authLoading, error
   } = props;
   // use-query-param library seamlessly handles grabbing & parsing this value
   const [code, setCode] = useQueryParam('code', StringParam);
-  
-  useEffect(function fetchTokenWithCode(){
+  const [stateParam, setStateParam] = useQueryParam('state', StringParam);
+  useEffect(function fetchTokenWithCode() {
     if (!code) return;
-    if (token || authLoading) return;
-    console.log('Have code, no token, auth not loading; fetching an access token');
+    if (token || authLoading || error) return;
     fetchAuth(code);
-  }, [code, token, authLoading, fetchAuth]);
+    setCode(null);
+    setStateParam(null);
+  }, [code, token, authLoading, fetchAuth, error]);
 
-  useEffect(function fetchUserWithToken(){
+  useEffect(function fetchUserWithToken() {
     if (!token) return;
-    if (user || userLoading) return;
-    // TODO: Remove code from query once we know loop is behaving
-    // setCode('');
-    console.log('Have token, no user, userLoading is false; fetching user');
+    if (user || userLoading || error) return;
     fetchUser();
   }, [token, user, userLoading, fetchUser])
 
@@ -60,13 +60,13 @@ const LoginPage: FC<LoginPageProps & StateProps & DispatchProps> = (props) => {
     </a>
   )
 
-  if (code && !token) content = (
+  if (authLoading) content = (
     // We have a code, but no token -- must be waiting for
     // a response to tokenFetch.
     <p>Getting an OAuth token, please wait...</p>
   )
 
-  if (token && !user) content = (
+  if (userLoading) content = (
     // We have a token, but no user -- must be waiting for
     // GitHub to respond with the authenticatedUser() call
     <p>Getting username from your profile, please wait...</p>
@@ -80,15 +80,19 @@ const LoginPage: FC<LoginPageProps & StateProps & DispatchProps> = (props) => {
     <p>Login complete!  You should see the new deployment form now.</p>
   )
 
+  if (error) content = (
+    <pre>{JSON.stringify(error, null, 2)}</pre>
+  )
+
   return (
-    <Box alignContent='center'>
+    <>
       <h1>Welcome to IPFS ENS Deployer</h1>
-      { content }
-    </Box>
+      {content}
+    </>
   )
 }
 
-const mapStateToProps = (state:AppState) => {
+const mapStateToProps = (state: AppState) => {
   const github = GitSelectors.buildApi.Git(state)
   return {
     gitLoginUrl: github.loginUrl,
@@ -96,13 +100,14 @@ const mapStateToProps = (state:AppState) => {
     authLoading: state.git.authLoading,
     userLoading: state.git.userLoading,
     user: GitSelectors.getUser(state),
-    auth: GitSelectors.getAuth(state)
+    auth: GitSelectors.getAuth(state),
+    error: GitSelectors.getErr(state)
   }
 }
 
-const mapDispatchToProps = (dispatch:AsyncDispatch, ownProps:LoginPageProps) => {
+const mapDispatchToProps = (dispatch: AsyncDispatch, ownProps: LoginPageProps) => {
   return {
-    fetchAuth: (code:string) => dispatch(GitActions.fetchAuth(code)),
+    fetchAuth: (code: string) => dispatch(GitActions.fetchAuth(code)),
     fetchUser: () => dispatch(GitActions.fetchUser())
   }
 }

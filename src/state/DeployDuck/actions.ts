@@ -1,4 +1,5 @@
 import actionCreatorFactory from 'typescript-fsa';
+import Alert from 'react-s-alert';
 import { asyncFactory } from 'typescript-fsa-redux-thunk';
 import { DeployItem, DeployArgs } from '@eximchain/ipfs-ens-types/spec/deployment';
 import { AsyncAction, AsyncDispatch } from '../sharedTypes';
@@ -17,7 +18,7 @@ const actionCreator = actionCreatorFactory('deploy');
 export const resetNewDeploy = actionCreator<void>('reset-new');
 
 export const updateNewDeploy = actionCreator<{
-  field: string,
+  field: keyof DeployArgs,
   value: string
 }>('update-new');
 
@@ -27,22 +28,34 @@ export const deploysLoading = actionCreator<boolean>('deploys-loading');
 
 export const newDeployLoading = actionCreator<boolean>('new-deploy-loading');
 
+export const setError = actionCreator<any>('set-err');
+
 export const fetchDeploys: () => AsyncAction = () => {
   return async (dispatch: AsyncDispatch, getState) => {
     dispatch(deploysLoading(true));
-    const Deployer = buildApi.Deployer(getState());
-    const deployments = await Deployer.listDeployments();
-    dispatch(saveDeploys(deployments));
+    try {
+      const Deployer = buildApi.Deployer(getState());
+      const deployments = await Deployer.listDeployments();
+      dispatch(saveDeploys(deployments));
+    } catch (err) {
+      Alert.error(`Error: ${JSON.stringify(err, null, 2)}`)
+      dispatch(setError(err))
+    }
     dispatch(deploysLoading(false));
   }
 }
 
-export const fetchDeploy: (name: string) => AsyncAction = () => {
+export const fetchDeploy: (name: string) => AsyncAction = (name) => {
   return async (dispatch: AsyncDispatch, getState) => {
     dispatch(deploysLoading(true));
-    const Deployer = buildApi.Deployer(getState());
-    const deployment = await Deployer.getDeployment(name);
-    dispatch(saveDeploys([deployment]));
+    try {
+      const Deployer = buildApi.Deployer(getState());
+      const deployment = await Deployer.getDeployment(name);
+      dispatch(saveDeploys([deployment]));
+    } catch (err) {
+      Alert.error(`Error: ${JSON.stringify(err, null, 2)}`)
+      dispatch(setError(err));
+    }
     dispatch(deploysLoading(false));
   }
 }
@@ -50,11 +63,16 @@ export const fetchDeploy: (name: string) => AsyncAction = () => {
 export const createDeploy: (args: DeployArgs) => AsyncAction = (args) => {
   return async (dispatch: AsyncDispatch, getState) => {
     dispatch(newDeployLoading(true));
-    const Deployer = buildApi.Deployer(getState());
-    const createRes = await Deployer.createDeployment(args);
-    console.log('We got a create response', createRes);
-    console.log('Throwing away newDeploy: ',args);
-    dispatch(resetNewDeploy())
+    try {
+      const Deployer = buildApi.Deployer(getState());
+      const createRes = await Deployer.createDeployment(args);
+      console.log('We got a create response', createRes);
+      console.log('Throwing away newDeploy: ',args);
+      dispatch(resetNewDeploy());
+    } catch (err) {
+      Alert.error(`Error: ${JSON.stringify(err, null, 2)}`)
+      dispatch(setError(err));
+    }
     dispatch(newDeployLoading(false));
 
     // Wait for 3/4s of a second then refresh our deploy list

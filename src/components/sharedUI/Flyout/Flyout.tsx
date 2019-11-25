@@ -75,6 +75,7 @@ export const Flyout:FC<FlyoutProps> = ({children, label, ariaLabel, ...props}) =
   }
   
   if (triggerRect !== null){
+    // @ts-ignore
     popup = <TooltipPopup {...popupProps} />
   }
   return (

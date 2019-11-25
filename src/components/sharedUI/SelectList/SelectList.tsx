@@ -65,7 +65,7 @@ export interface SelectListProps {
   className?: string;
 }
 
-export default class SelectList extends React.Component<
+export class SelectList extends React.Component<
   SelectListProps,
   SelectListStates
 > {
@@ -96,8 +96,7 @@ export default class SelectList extends React.Component<
 
   handleOnChange = (event: React.SyntheticEvent<HTMLSelectElement>) => {
     if (
-      event.target instanceof HTMLSelectElement &&
-      this.props.value !== event.target.value
+      event.target instanceof HTMLSelectElement
     ) {
       this.props.onChange({ event, value: event.target.value });
       if (this.props.errorMessage) {
@@ -212,3 +211,5 @@ export default class SelectList extends React.Component<
     );
   }
 }
+
+export default SelectList;

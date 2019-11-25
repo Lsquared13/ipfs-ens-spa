@@ -1,22 +1,73 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { RouteComponentProps } from '@reach/router';
 import { DeployItem } from '@eximchain/ipfs-ens-types/spec/deployment';
-import { Box } from '../components/sharedUI';
-import DeploymentTable from '../components/DeploymentTable';
+import { Box, Button, DeploymentTable, ApiError } from '../components';
+import { AppState, DeployActions, DeploySelectors } from '../state';
+import { AsyncDispatch } from '../state/sharedTypes';
 
 export interface DeployListPageProps extends RouteComponentProps {
-  deployments?: DeployItem[]
+
 }
 
-export const DeployListPage: FC<DeployListPageProps> = (props) => {
-  // TODO: Add the Deployment Table and a heading
-  const deployments:DeployItem[] = props.deployments || [];
+interface StateProps {
+  deploys: { [key:string] : DeployItem }
+  loading: boolean
+  error: any
+}
+
+interface DispatchProps {
+  loadDeploys: () => void
+}
+
+const DeployListPage: FC<DeployListPageProps & StateProps & DispatchProps> = (props) => {
+  const { deploys, loadDeploys, error, loading, navigate } = props;
+
+  useEffect(function loadDeploysOnMount() {
+    loadDeploys();
+  }, []);
+
+  function goToNew() { navigate && navigate('/new') }
+
+  let content;
+
+  content = (
+    <DeploymentTable deployments={Object.values(deploys)} />
+  )
+
+  if (loading) content = (
+    <p>Loading your deployments...</p>
+  )
+
+  if (error) content = (
+    <>
+      <p>Error fetching your deployments:</p>
+      <ApiError {...{ error }} />
+    </>
+  )
+
   return (
-    <Box>
-      <h1>Deployments</h1>
-      <DeploymentTable deployments={deployments} />
-    </Box>
+    <>
+      <h1>IPFS ENS Deployer</h1>
+      <h2>All Deployments</h2>
+      { content }
+      <Button onClick={goToNew}>New Deployment</Button>
+    </>
   )
 }
 
-export default DeployListPage;
+const mapStateToProps = (state:AppState) => {
+  return {
+    deploys: DeploySelectors.getDeploys(state),
+    error: DeploySelectors.getErr(state),
+    loading: DeploySelectors.isLoading.deploys(state)
+  }
+}
+
+const mapDispatchToProps = (dispatch:AsyncDispatch) => {
+  return {
+    loadDeploys: () => dispatch(DeployActions.fetchDeploys())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeployListPage);
