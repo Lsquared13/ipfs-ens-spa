@@ -6,6 +6,7 @@ import request from 'request-promise-native';
 
 interface Headers {
   'Content-Type': string
+  Accept: string
   Authorization?: string
 }
 
@@ -17,7 +18,8 @@ export class Deployer {
 
   private makeRequest(apiPath:string, method:string, args?:any) {
     const headers: Headers = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
     }
     headers.Authorization = this.token || '';
     return request(
