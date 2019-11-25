@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from '@reach/router';
 import { DeployItem } from '@eximchain/ipfs-ens-types/spec/deployment';
 import { Box, Button, DeploymentTable, ApiError } from '../components';
-import { AppState, DeployActions, DeploySelectors } from '../state';
+import { AppState, DeployActions, DeploySelectors, GitActions } from '../state';
 import { AsyncDispatch } from '../state/sharedTypes';
 
 export interface DeployListPageProps extends RouteComponentProps {
@@ -18,16 +18,21 @@ interface StateProps {
 
 interface DispatchProps {
   loadDeploys: () => void
+  logout: () => void
 }
 
 const DeployListPage: FC<DeployListPageProps & StateProps & DispatchProps> = (props) => {
-  const { deploys, loadDeploys, error, loading, navigate } = props;
+  const { deploys, loadDeploys, error, loading, navigate, logout } = props;
 
   useEffect(function loadDeploysOnMount() {
     loadDeploys();
   }, []);
 
   function goToNew() { navigate && navigate('/new') }
+
+  function logOut() {
+
+  }
 
   let content;
 
@@ -52,6 +57,7 @@ const DeployListPage: FC<DeployListPageProps & StateProps & DispatchProps> = (pr
       <h2>All Deployments</h2>
       { content }
       <Button onClick={goToNew}>New Deployment</Button>
+      <Button onClick={logout}>Log Out</Button>
     </>
   )
 }
@@ -66,7 +72,8 @@ const mapStateToProps = (state:AppState) => {
 
 const mapDispatchToProps = (dispatch:AsyncDispatch) => {
   return {
-    loadDeploys: () => dispatch(DeployActions.fetchDeploys())
+    loadDeploys: () => dispatch(DeployActions.fetchDeploys()),
+    logout: () => dispatch(GitActions.resetAuth())
   }
 }
 
