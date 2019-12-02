@@ -35,13 +35,13 @@ export class Git {
     this.requireAuth()
     const res = await this.API.repos.list();
     console.log('res from RepoList: ',JSON.stringify(res, null, 2));
-    return res.data;
+    return res;
   }
 
   async getBranches(owner: string, repo:string) {
     this.requireAuth()
-    const res = await this.API.repos.listBranches({ owner, repo });
+    const res = await this.API.repos.listBranches({ owner, repo, per_page: 100 });
     console.log('res from BranchList for comparison: ',res);
-    return res.data;
+    return res;
   }
 }
