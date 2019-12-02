@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@eximchain/api-types": "^1.0.1",
-    "@eximchain/ipfs-ens-types": "^1.0.4",
+    "@eximchain/ipfs-ens-types": "^1.1.0",
     "@octokit/oauth-login-url": "^2.1.2",
     "@octokit/rest": "^16.35.0",
     "@reach/router": "^1.2.1",
