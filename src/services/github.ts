@@ -34,6 +34,7 @@ export class Git {
   async getRepoList() {
     this.requireAuth()
     const res = await this.API.repos.list();
+    console.log('res from RepoList: ',JSON.stringify(res, null, 2));
     return res.data;
   }
 
