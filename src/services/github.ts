@@ -41,6 +41,7 @@ export class Git {
   async getBranches(owner: string, repo:string) {
     this.requireAuth()
     const res = await this.API.repos.listBranches({ owner, repo });
+    console.log('res from BranchList for comparison: ',res);
     return res.data;
   }
 }
