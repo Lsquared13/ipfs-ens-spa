@@ -32,7 +32,7 @@ export class Git {
   private getMissingPageRange(link:parseLinkHeader.Links):number[] {
     return range(
       parseInt(link['next'].page), 
-      parseInt(link['last'].page)
+      parseInt(link['last'].page) + 1
     );
   }
 
