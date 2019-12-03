@@ -12,6 +12,7 @@
     "@types/classnames": "^2.2.9",
     "@types/jest": "24.0.21",
     "@types/lodash.isequal": "^4.5.5",
+    "@types/lodash.range": "^3.2.6",
     "@types/node": "12.12.5",
     "@types/react": "^16.9.11",
     "@types/react-dom": "16.9.3",
@@ -23,7 +24,9 @@
     "lodash.groupby": "^4.6.0",
     "lodash.isequal": "^4.5.0",
     "lodash.keyby": "^4.6.0",
+    "lodash.range": "^3.2.0",
     "node-sass": "^4.13.0",
+    "parse-link-header": "^1.0.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-json-pretty": "^2.2.0",
@@ -69,6 +72,7 @@
   "devDependencies": {
     "@types/lodash.groupby": "^4.6.6",
     "@types/lodash.keyby": "^4.6.6",
+    "@types/parse-link-header": "^1.0.0",
     "@types/reach__router": "^1.2.6",
     "@types/react-redux": "^7.1.5",
     "redux-devtools-extension": "^2.13.8"

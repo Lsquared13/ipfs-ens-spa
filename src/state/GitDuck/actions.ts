@@ -67,11 +67,7 @@ export const fetchRepos:() => AsyncAction = () => {
     try {
       if (!git) throw new Error('Cannot fetch repos without a token.')
       const repos = await git.getRepoList();
-      dispatch(saveRepos(repos.data));
-      if (repos.headers.link) {
-        console.log('Value of "link" in header:')
-        console.log(repos.headers.link);
-      }
+      dispatch(saveRepos(repos));
     } catch (err) {
       console.log('fetchRepos err: ',err);
       dispatch(setError(err))
@@ -88,7 +84,7 @@ export const fetchBranches:(owner:string, repo:string) => AsyncAction = (owner, 
       if (!git) throw new Error('Cannot fetch branches without a token.');
       const branches = await git.getBranches(owner, repo);
       dispatch(saveBranches({
-        repo: `${owner}/${repo}`, branches: branches.data
+        repo: `${owner}/${repo}`, branches
       }));
     } catch (err) {
       console.log('fetchBranches err: ',fetchBranches);
