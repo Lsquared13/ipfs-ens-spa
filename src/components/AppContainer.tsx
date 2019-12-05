@@ -16,18 +16,20 @@ export const AppContainer: FC = ({ children }) => {
   return (
     <QueryParamProvider reachHistory={globalHistory}>
       <Alert />
-      <Box flex='grow' dangerouslySetInlineStyle={{
-        minWidth: '60%',
-        maxWidth: '60%',
-        marginTop: '6em',
-        marginLeft: '20%',
-        marginRight: '20%'
-      }}>
+      <div className='AppWrapper'>
         {children}
-      </Box>
+      </div>
       <Footer />
     </QueryParamProvider>
   )
 }
 
 export default AppContainer;
+
+const dangerousStyle = {
+  maxWidth: '60%',
+  minWidth: '512px',
+  marginTop: '6em',
+  marginLeft: '20%',
+  marginRight: '20%'
+};

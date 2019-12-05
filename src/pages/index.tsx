@@ -1,17 +1,5 @@
-import Login from './Login';
-import DeployDetail from './DeployDetail';
-import DeployList from './DeployList';
-import NewDeploy from './NewDeploy';
-import PageNotFound from './PageNotFound'
+import Landing from './LandingPage';
 
-export * from './DeployDetail';
-export * from './DeployList';
-export * from './NewDeploy';
-export * from './Login';
-export * from './PageNotFound';
+export * from './LandingPage';
 
-export const LoginPage = Login;
-export const DeployDetailPage = DeployDetail;
-export const DeployListPage = DeployList;
-export const NewDeployPage = NewDeploy;
-export const NotFoundPage = PageNotFound;
+export const LandingPage = Landing;

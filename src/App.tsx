@@ -1,23 +1,12 @@
 import React from 'react';
-import { AppContainer, AuthGateway } from './components';
-import { 
-  DeployListPage, DeployDetailPage, NewDeployPage, LoginPage, 
-  PageNotFound
-} from './pages';
-import { Router, Link } from "@reach/router"
+import { AppContainer } from './components';
+import { LandingPage } from './pages';
 import './App.css';
 
 const App: React.FC = () => {
   return (
     <AppContainer>
-      <Router>
-        <AuthGateway path='/'>          
-          <DeployListPage path='/' />
-          <NewDeployPage path='new' />
-          <DeployDetailPage path='/deploy/:deployName' />
-          <PageNotFound default />
-        </AuthGateway>
-      </Router>
+      <LandingPage />
     </AppContainer>
   )
 }
