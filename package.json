@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "@eximchain/api-types": "^1.0.1",
-    "@eximchain/ipfs-ens-api-client": "file:../ipfs-ens-api-client",
-    "@eximchain/ipfs-ens-types": "^1.1.0",
+    "@eximchain/ipfs-ens-api-client": "^1.1.1",
+    "@eximchain/ipfs-ens-types": "^1.1.2",
     "@reach/router": "^1.2.1",
     "@types/lodash.isequal": "^4.5.5",
     "@types/lodash.range": "^3.2.6",
