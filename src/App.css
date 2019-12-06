@@ -1,0 +1,71 @@
+div.LoginCode {
+  padding-top: 1.618em;
+  padding-bottom: 1.618em;
+  text-align: center;
+  text-overflow: ellipsis;
+  background-color: rgba(0, 0, 0, 0.1618);
+  border: black;
+  border-radius: 0.1618em;
+  font-size: xx-large;
+  font-weight: bold;
+  cursor: copy;
+}
+
+span.codeExplanation {
+  font-size: 1em;
+  font-weight: normal;
+}
+
+.codeString{
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.1618)
+}
+
+.codeBlock {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.1618);
+  font-size: larger;
+  padding: 1em 1.618em 1em 1.618em;
+}
+
+h1.AppHeader {
+  position: relative;
+  height: '4em'
+}
+
+h1.AppHeader span {
+  margin: 0;
+  height:'3.2em';
+  position: absolute;
+  top:45%;
+  left:256px;
+  font-size: 1.618em;
+  transform: translate(-132px, -50%);
+}
+
+div.AppWrapper {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+@media only screen and (max-width: 1024px) {
+  div.AppWrapper {
+    width: 90%;
+    max-width: 90%;
+    min-width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  div.AppWrapper {
+    width: 60%;
+    max-width: 60%;
+    min-width: 60%;
+    margin-left: 20%;
+    margin-right: 20%;
+  }
+}
